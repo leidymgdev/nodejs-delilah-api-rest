@@ -1,0 +1,31 @@
+{
+  "name": "delilah-api-rest-nodejs",
+  "version": "1.0.0",
+  "description": "Api rest Delilah Restaurant",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leidymgdev/delilah-api-rest-nodejs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leidymgdev/delilah-api-rest-nodejs/issues"
+  },
+  "homepage": "https://github.com/leidymgdev/delilah-api-rest-nodejs#readme",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "sequelize": "^5.21.13"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
