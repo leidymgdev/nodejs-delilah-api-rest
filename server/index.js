@@ -2,7 +2,7 @@ const express = require("express");
 const router = require("./routes/index");
 const { PORT, ENVIRONMENT } = require("./config");
 
-require("./repository/database");
+const database = require("./repository/database");
 
 const app = express();
 app.use(express.json());
@@ -11,4 +11,14 @@ app.use("/api", router);
 
 app.listen(PORT, () => {
   console.log(`API running on port ${PORT} in environment ${ENVIRONMENT}`);
+
+  // Syncronize database for creating the models if not exits
+  database
+    .sync({ force: false })
+    .then(() => {
+      console.log("Database is synced.");
+    })
+    .catch((err) => {
+      throw err;
+    });
 });

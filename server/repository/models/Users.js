@@ -1,45 +1,48 @@
-module.exports = (database, orm) => {
-  return database.define("users", {
-    id: {
-      type: orm.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    email: {
-      type: orm.STRING,
-      require: true,
-      allowNull: false,
-      validate: { notEmpty: true },
-    },
-    password: {
-      type: orm.STRING,
-      require: true,
-      allowNull: false,
-      validate: { notEmpty: true },
-    },
-    username: {
-      type: orm.STRING,
-      require: true,
-      allowNull: false,
-      validate: { notEmpty: true },
-    },
-    fullname: {
-      type: orm.STRING,
-      require: true,
-      allowNull: false,
-      validate: { notEmpty: true },
-    },
-    cellphone: {
-      type: orm.STRING,
-      require: true,
-      allowNull: false,
-      validate: { notEmpty: true },
-    },
-    shippingAddress: {
-      type: orm.STRING,
-      require: true,
-      allowNull: false,
-      validate: { notEmpty: true },
-    },
-  });
-};
+const Sequelize = require("sequelize");
+const database = require("../database");
+
+const Users = database.define("users", {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  email: {
+    type: Sequelize.STRING,
+    require: true,
+    allowNull: false,
+    validate: { notEmpty: true },
+  },
+  password: {
+    type: Sequelize.STRING,
+    require: true,
+    allowNull: false,
+    validate: { notEmpty: true },
+  },
+  username: {
+    type: Sequelize.STRING,
+    require: true,
+    allowNull: false,
+    validate: { notEmpty: true },
+  },
+  fullname: {
+    type: Sequelize.STRING,
+    require: true,
+    allowNull: false,
+    validate: { notEmpty: true },
+  },
+  cellphone: {
+    type: Sequelize.STRING,
+    require: true,
+    allowNull: false,
+    validate: { notEmpty: true },
+  },
+  shippingAddress: {
+    type: Sequelize.STRING,
+    require: true,
+    allowNull: false,
+    validate: { notEmpty: true },
+  },
+});
+
+module.exports = Users;

@@ -1,15 +1,18 @@
-module.exports = (database, orm) => {
-  return database.define("orders", {
-    id: {
-      type: orm.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    description: {
-      type: orm.STRING,
-      require: true,
-      allowNull: false,
-      validate: { notEmpty: true },
-    },
-  });
-};
+const Sequelize = require("sequelize");
+const database = require("../database");
+
+const Orders = database.define("orders", {
+  id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  description: {
+    type: Sequelize.STRING,
+    require: true,
+    allowNull: false,
+    validate: { notEmpty: true },
+  },
+});
+
+module.exports = Orders;

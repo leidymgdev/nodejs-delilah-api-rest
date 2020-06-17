@@ -8,14 +8,6 @@ const {
   DB_DIALECT,
 } = require("../config");
 
-const StatusesModel = require("./models/Statuses");
-const UserTypesModel = require("./models/UserTypes");
-const PaymentMethodsModel = require("./models/PaymentMethods");
-const UsersModel = require("./models/Users");
-const ProductsModel = require("./models/Products");
-const OrdersModel = require("./models/Orders");
-const OrderDetailModel = require("./models/OrderDetail");
-
 const database = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
   host: DB_HOST,
   dialect: DB_DIALECT,
@@ -28,13 +20,16 @@ const database = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
   },
 });
 
-const Statuses = StatusesModel(database, Sequelize);
-const UserTypes = UserTypesModel(database, Sequelize);
-const PaymentMethods = PaymentMethodsModel(database, Sequelize);
-const Users = UsersModel(database, Sequelize);
-const Products = ProductsModel(database, Sequelize);
-const Orders = OrdersModel(database, Sequelize);
-const OrderDetail = OrderDetailModel(database, Sequelize);
+module.exports = database;
+
+// Associations
+const Statuses = require("./models/Statuses");
+const UserTypes = require("./models/UserTypes");
+const PaymentMethods = require("./models/PaymentMethods");
+const Users = require("./models/Users");
+const Products = require("./models/Products");
+const Orders = require("./models/Orders");
+const OrderDetail = require("./models/OrderDetail");
 
 Users.belongsTo(UserTypes);
 
@@ -44,22 +39,3 @@ Orders.belongsTo(PaymentMethods);
 
 OrderDetail.belongsTo(Orders);
 OrderDetail.belongsTo(Products);
-
-database
-  .sync({ force: false })
-  .then(() => {
-    console.log("Database is synced.");
-  })
-  .catch((err) => {
-    throw err;
-  });
-
-module.exports = {
-  Statuses,
-  UserTypes,
-  PaymentMethods,
-  Users,
-  Products,
-  Orders,
-  OrderDetail,
-};
