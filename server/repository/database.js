@@ -1,5 +1,13 @@
 const Sequelize = require("sequelize");
 
+const {
+  DB_NAME,
+  DB_USERNAME,
+  DB_PASSWORD,
+  DB_HOST,
+  DB_DIALECT,
+} = require("../config");
+
 const StatusesModel = require("./models/Statuses");
 const UserTypesModel = require("./models/UserTypes");
 const PaymentMethodsModel = require("./models/PaymentMethods");
@@ -8,22 +16,17 @@ const ProductsModel = require("./models/Products");
 const OrdersModel = require("./models/Orders");
 const OrderDetailModel = require("./models/OrderDetail");
 
-const database = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USERNAME,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT,
-    logging: false,
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000,
-    },
-  }
-);
+const database = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
+  host: DB_HOST,
+  dialect: DB_DIALECT,
+  logging: false,
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
+  },
+});
 
 const Statuses = StatusesModel(database, Sequelize);
 const UserTypes = UserTypesModel(database, Sequelize);

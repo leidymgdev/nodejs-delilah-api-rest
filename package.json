@@ -4,7 +4,7 @@
   "description": "Api rest Delilah Restaurant",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon src/server/index.js"
+    "start": "nodemon server/index.js"
   },
   "repository": {
     "type": "git",
