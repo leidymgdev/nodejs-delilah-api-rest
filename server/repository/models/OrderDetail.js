@@ -1,18 +1,21 @@
-module.exports = (database, orm) => {
-  return database.define("orderdetails", {
-    quantity: {
-      type: orm.INTEGER,
-      primaryKey: true,
-      require: true,
-      allowNull: false,
-      validate: { notEmpty: true },
-    },
-    price: {
-      type: orm.DECIMAL,
-      primaryKey: true,
-      require: true,
-      allowNull: false,
-      validate: { notEmpty: true },
-    },
-  });
-};
+const Sequelize = require("sequelize");
+const database = require("../database");
+
+const OrderDetail = database.define("orderdetails", {
+  quantity: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    require: true,
+    allowNull: false,
+    validate: { notEmpty: true },
+  },
+  price: {
+    type: Sequelize.DECIMAL,
+    primaryKey: true,
+    require: true,
+    allowNull: false,
+    validate: { notEmpty: true },
+  },
+});
+
+module.exports = OrderDetail;
