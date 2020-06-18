@@ -11,7 +11,7 @@ const Users = database.define("users", {
     type: Sequelize.STRING,
     require: true,
     allowNull: false,
-    validate: { notEmpty: true },
+    validate: { notEmpty: true, isEmail: true },
   },
   password: {
     type: Sequelize.STRING,
