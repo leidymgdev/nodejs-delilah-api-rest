@@ -1,9 +1,10 @@
 const express = require("express");
-const router = require("./routes/index");
 const cors = require("cors");
+
 const { PORT, ENVIRONMENT } = require("./config");
 
 const database = require("./repository/database");
+const router = require("./routes/index");
 
 const app = express();
 app.use(express.json());
