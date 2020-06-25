@@ -1,18 +1,13 @@
 const router = require("express").Router();
 const Users = require("../repository/models/Users");
-const { create } = require("../middlewares/users");
+const { create, login } = require("../logic/users");
 
-router.get("/", async (req, res) => {
-  res.send("Home users");
+router.post("/create", (req, res) => {
+  create(req, res);
 });
 
-router.post("/", async (req, res) => {
-  const result = await create(req.body);
-  if (result.status != 200) {
-    res.status(result.status).json(result.error);
-  } else {
-    res.json(result.result);
-  }
+router.post("/login", (req, res) => {
+  login(req, res);
 });
 
 module.exports = router;
