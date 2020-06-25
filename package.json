@@ -11,7 +11,6 @@
     "type": "git",
     "url": "git+https://github.com/leidymgdev/delilah-api-rest-nodejs.git"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -22,12 +21,13 @@
     "@hapi/joi": "^17.1.1",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.2",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1",
+    "express": "^4.15.2",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.1.0",
-    "sequelize": "^5.21.13"
+    "sequelize": "^6.1.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

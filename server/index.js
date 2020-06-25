@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Routes
-app.use("/api", router);
+app.use("/api/v1", router);
 
 app.listen(PORT, () => {
   console.log(`API running on port ${PORT} in environment ${ENVIRONMENT}`);
