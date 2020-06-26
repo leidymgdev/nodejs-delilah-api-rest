@@ -11,7 +11,8 @@ const create = async (req, res) => {
 
 const read = async (req, res) => {
   try {
-    return null;
+    const products = await Products.findAll();
+    res.json(products);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

@@ -8,8 +8,11 @@ const validateToken = async (req, res, next) => {
 
     await jwt.verify(token, SECRET_TOKEN, (error, data) => {
       if (error) return res.status(403).json({ error: "Token expired" });
-      req.body.userId = data.id;
-      req.body.userTypeId = data.userTypeId;
+      req.body = {
+        ...req.body,
+        userId: data.id,
+        userTypeId: data.userTypeId,
+      };
       next();
     });
   } catch (error) {

@@ -5,8 +5,12 @@ const {
 } = require("../middlewares/users.middleware");
 const { create, read, update, remove } = require("../logic/products.logic");
 
-router.post("/", validateToken, validateAdminPermissions, async (req, res) => {
+router.post("/", validateToken, validateAdminPermissions, (req, res) => {
   create(req, res);
+});
+
+router.get("/", (req, res) => {
+  read(req, res);
 });
 
 module.exports = router;
