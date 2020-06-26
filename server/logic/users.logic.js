@@ -9,6 +9,9 @@ const create = async (req, res) => {
   try {
     const { email, username, password } = req.body;
 
+    if (!email || !username)
+      return res.status(400).json({ error: "Bad credentials." });
+
     const user = await Users.findOne({
       where: {
         [Op.or]: [{ email }, { username }],
