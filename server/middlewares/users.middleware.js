@@ -11,7 +11,7 @@ const validateToken = async (req, res, next) => {
       req.body = {
         ...req.body,
         userId: data.id,
-        userTypeId: data.userTypeId,
+        userTypeId: data.userTypeId,  
       };
       next();
     });
