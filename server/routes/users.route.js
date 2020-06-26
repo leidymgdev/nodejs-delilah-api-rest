@@ -1,8 +1,8 @@
 const router = require("express").Router();
 const Users = require("../repository/models/Users");
-const { create, login } = require("../logic/users");
+const { create, login } = require("../logic/users.logic");
 
-router.post("/create", (req, res) => {
+router.post("/", (req, res) => {
   create(req, res);
 });
 

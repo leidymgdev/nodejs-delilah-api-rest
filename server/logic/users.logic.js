@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const Users = require("../repository/models/Users");
-const { SALT_BCRYPT, SECRET_TOKEN } = require("../config");
+const { SALT_BCRYPT, SECRET_TOKEN, EXPIRES_IN_TOKEN } = require("../config");
 
 const create = async (req, res) => {
   try {
@@ -40,7 +40,9 @@ const login = async (req, res) => {
     if (!validatePassword)
       return res.status(400).json({ error: "Bad credentials." });
 
-    const token = jwt.sign(email || username, SECRET_TOKEN);
+    const token = jwt.sign({ id: user.id }, SECRET_TOKEN, {
+      expiresIn: EXPIRES_IN_TOKEN,
+    });
     return res.header("auth-token", token).json({ token });
   } catch (error) {
     res.status(400).json({ error: error.message });

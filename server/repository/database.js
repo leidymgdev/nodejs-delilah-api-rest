@@ -31,7 +31,12 @@ const Products = require("./models/Products");
 const Orders = require("./models/Orders");
 const OrderDetail = require("./models/OrderDetail");
 
-Users.belongsTo(UserTypes);
+Users.belongsTo(UserTypes, {
+  foreignKey: {
+    name: "userTypeId",
+    allowNull: false,
+  },
+});
 
 Orders.belongsTo(Users);
 Orders.belongsTo(Statuses);

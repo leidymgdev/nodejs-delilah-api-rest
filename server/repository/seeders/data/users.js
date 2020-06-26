@@ -7,7 +7,7 @@ const usersData = [
     fullname: "administrator",
     cellphone: "+57 000451232",
     shippingAddress: "Carrera 1 # 1 - 0",
-    usertypeId: 2,
+    userTypeId: 2,
   },
 ];
 
