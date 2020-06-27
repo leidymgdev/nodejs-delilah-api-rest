@@ -3,22 +3,22 @@ const {
   validateToken,
   validateAdminPermissions,
 } = require("../middlewares/users.middleware");
-const { create, read, update, remove } = require("../logic/products.logic");
+const controller = require("../controller/products.controller");
 
 router.post("/", validateToken, validateAdminPermissions, (req, res) => {
-  create(req, res);
+  controller.create(req, res);
 });
 
 router.get("/", validateToken, (req, res) => {
-  read(req, res);
+  controller.read(req, res);
 });
 
 router.put("/", validateToken, validateAdminPermissions, (req, res) => {
-  update(req, res);
+  controller.update(req, res);
 });
 
 router.delete("/", validateToken, validateAdminPermissions, (req, res) => {
-  remove(req, res);
+  controller.remove(req, res);
 });
 
 module.exports = router;
