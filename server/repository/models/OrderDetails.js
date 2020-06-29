@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const database = require("../database");
 
-const OrdersDetails = database.define("ordersdetails", {
+const OrderDetails = database.define("orderdetails", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
@@ -30,4 +30,4 @@ const OrdersDetails = database.define("ordersdetails", {
   }
 });
 
-module.exports = OrdersDetails;
+module.exports = OrderDetails;

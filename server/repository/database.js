@@ -29,7 +29,7 @@ const PaymentMethods = require("./models/PaymentMethods");
 const Users = require("./models/Users");
 const Products = require("./models/Products");
 const Orders = require("./models/Orders");
-const OrdersDetails = require("./models/OrdersDetails");
+const OrderDetails = require("./models/OrderDetails");
 
 Users.belongsTo(UserTypes, {
   foreignKey: { name: "userTypeId", allowNull: false }
@@ -41,5 +41,5 @@ Orders.belongsTo(PaymentMethods, {
   foreignKey: { name: "paymentMethodId", allowNull: false }
 });
 
-OrdersDetails.belongsTo(Orders, { foreignKey: "idOrder" });
-OrdersDetails.belongsTo(Products, { foreignKey: "idProduct" });
+OrderDetails.belongsTo(Orders, { foreignKey: "idOrder" });
+OrderDetails.belongsTo(Products, { foreignKey: "idProduct" });
