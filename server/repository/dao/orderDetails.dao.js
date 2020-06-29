@@ -8,6 +8,10 @@ const findAll = () => {
   return OrderDetails.findAll();
 };
 
+const findAllByOrderId = (orderId) => {
+  return OrderDetails.findAll({ where: { orderId } });
+};
+
 const findOne = (body) => {
   return OrderDetails.findOne({ where: { id: body.id } });
 };
@@ -23,6 +27,7 @@ const remove = () => {
 module.exports = {
   create,
   findAll,
+  findAllByOrderId,
   findOne,
   update,
   remove

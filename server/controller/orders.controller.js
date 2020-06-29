@@ -8,6 +8,7 @@ const {
   STATUS_CODE: { BAD_REQUEST },
   GENERAL_MESSAGES: { RESOURSE_DOES_NOT_EXIST }
 } = require("../config/constants/index");
+const OrderDetails = require("../repository/models/OrderDetails");
 
 const create = async (req, res) => {
   try {
@@ -58,14 +59,16 @@ const read = async (req, res) => {
     if (userTypeId === ADMIN_USER_ID) {
       if (id) {
         const order = await OrdersDao.findOne(id);
-        return res.json(order);
+        const orderDetail = await OrderDetailsDao.findAllByOrderId(id);
+        return res.json({ ...order.dataValues, orderDetail });
       }
       const Orders = await OrdersDao.findAll();
       return res.json(Orders);
     } else {
       if (id) {
         const order = await OrdersDao.findOneByUserId(id, userId);
-        return res.json(order);
+        const orderDetail = await OrderDetailsDao.findAllByOrderId(id);
+        return res.json({ order, orderDetail });
       }
       const orders = await OrdersDao.findAllByUserId(userId);
       return res.json(orders);
@@ -145,6 +148,8 @@ const createOrderDetail = async (orderId, orderDetail) => {
     console.log("createOrderDetail", error);
   }
 };
+
+const getOrderDetails = async () => {};
 
 module.exports = {
   create,
