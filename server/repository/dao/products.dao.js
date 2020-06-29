@@ -6,21 +6,19 @@ const create = (body) => {
 };
 
 const findAll = () => {
-  return Products.findAll({
-    where: { stock: { [Op.gt]: 0 } }, // > 0
-  });
+  return Products.findAll();
 };
 
-const findOne = (body) => {
-  return Products.findOne({ where: { id: body.id } });
+const findOne = (id) => {
+  return Products.findOne({ where: { id } });
 };
 
-const update = (body) => {
+const update = (id, body) => {
   return Products.update(body, { where: { id: body.id } });
 };
 
-const remove = () => {
-  return Products.destroy({ where: { id: body.id } });
+const remove = (id) => {
+  return Products.destroy({ where: { id } });
 };
 
 module.exports = {
@@ -28,5 +26,5 @@ module.exports = {
   findAll,
   findOne,
   update,
-  remove,
+  remove
 };

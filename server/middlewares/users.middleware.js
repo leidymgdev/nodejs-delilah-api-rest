@@ -17,7 +17,7 @@ const validateRequestCreate = (req, res, next) => {
       fullname: Joi.string().min(6).max(200).required(),
       cellphone: Joi.string().min(7).max(20).required(),
       shippingAddress: Joi.string().min(6).max(200).required(),
-      userTypeId: Joi.number().integer().min(1).max(1).required()
+      userTypeId: Joi.number().integer().min(1).max(2).required()
     });
 
     const validate = schema.validate(req.body);
@@ -48,11 +48,8 @@ const validateToken = async (req, res, next) => {
 
     await jwt.verify(token, SECRET_TOKEN, (error, data) => {
       if (error) return res.status(UNAUTHORIZED).json({ error: TOKEN_EXPIRED });
-      req.body = {
-        ...req.body,
-        userId: data.id,
-        userTypeId: data.userTypeId
-      };
+      req.body.userId = data.id;
+      req.body.userTypeId = data.userTypeId;
       next();
     });
   } catch (error) {

@@ -12,9 +12,9 @@ const {
 
 const create = async (req, res) => {
   try {
-    const { email, username, password } = req.body;
+    const { password } = req.body;
 
-    const user = await UsersDao.findone(email, username);
+    const user = await UsersDao.findone(req.body);
     if (user)
       return res.status(CONFLICT).json({ error: RESOURCE_ALREADY_EXISTS });
 
@@ -29,9 +29,9 @@ const create = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, username, password } = req.body;
+    const { password } = req.body;
 
-    const user = await UsersDao.findone(email, username);
+    const user = await UsersDao.findone(req.body);
     if (!user) return res.status(UNAUTHORIZED).json({ error: BAD_CREDENTIALS });
 
     const validatePassword = await bcrypt.compare(password, user.password);

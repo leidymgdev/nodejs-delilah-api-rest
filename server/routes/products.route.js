@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const {
   validateToken,
-  validateAdminPermissions,
+  validateAdminPermissions
 } = require("../middlewares/users.middleware");
 const controller = require("../controller/products.controller");
 
@@ -13,11 +13,11 @@ router.get("/", validateToken, (req, res) => {
   controller.read(req, res);
 });
 
-router.put("/", validateToken, validateAdminPermissions, (req, res) => {
+router.put("/:id", validateToken, validateAdminPermissions, (req, res) => {
   controller.update(req, res);
 });
 
-router.delete("/", validateToken, validateAdminPermissions, (req, res) => {
+router.delete("/:id", validateToken, validateAdminPermissions, (req, res) => {
   controller.remove(req, res);
 });
 

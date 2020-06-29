@@ -1,11 +1,11 @@
 const { Op } = require("sequelize");
 const Users = require("../models/Users");
 
-const findone = (email, username) => {
+const findone = (body) => {
   return Users.findOne({
     where: {
-      [Op.or]: [{ email }, { username }],
-    },
+      [Op.or]: [{ email: body.email }, { username: body.username }]
+    }
   });
 };
 
@@ -15,5 +15,5 @@ const create = (body) => {
 
 module.exports = {
   findone,
-  create,
+  create
 };

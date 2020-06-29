@@ -5,7 +5,7 @@ const {
   DB_USERNAME,
   DB_PASSWORD,
   DB_HOST,
-  DB_DIALECT,
+  DB_DIALECT
 } = require("../config");
 
 const database = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
@@ -14,10 +14,10 @@ const database = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
   logging: false,
   pool: {
     max: 5,
-    min: 0,
+    min: 1,
     acquire: 30000,
-    idle: 10000,
-  },
+    idle: 10000
+  }
 });
 
 module.exports = database;
@@ -29,18 +29,17 @@ const PaymentMethods = require("./models/PaymentMethods");
 const Users = require("./models/Users");
 const Products = require("./models/Products");
 const Orders = require("./models/Orders");
-const OrderDetail = require("./models/OrderDetail");
+const OrdersDetails = require("./models/OrdersDetails");
 
 Users.belongsTo(UserTypes, {
-  foreignKey: {
-    name: "userTypeId",
-    allowNull: false,
-  },
+  foreignKey: { name: "userTypeId", allowNull: false }
 });
 
-Orders.belongsTo(Users);
-Orders.belongsTo(Statuses);
-Orders.belongsTo(PaymentMethods);
+Orders.belongsTo(Users, { foreignKey: { allowNull: false } });
+Orders.belongsTo(Statuses, { foreignKey: { allowNull: false } });
+Orders.belongsTo(PaymentMethods, {
+  foreignKey: { name: "paymentMethodId", allowNull: false }
+});
 
-OrderDetail.belongsTo(Orders);
-OrderDetail.belongsTo(Products);
+OrdersDetails.belongsTo(Orders, { foreignKey: "idOrder" });
+OrdersDetails.belongsTo(Products, { foreignKey: "idProduct" });

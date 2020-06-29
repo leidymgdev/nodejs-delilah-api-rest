@@ -5,14 +5,13 @@ const Orders = database.define("orders", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
-    autoIncrement: true,
+    autoIncrement: true
   },
   description: {
     type: Sequelize.STRING,
     require: true,
-    allowNull: false,
-    validate: { notEmpty: true },
-  },
+    allowNull: true
+  }
 });
 
 module.exports = Orders;

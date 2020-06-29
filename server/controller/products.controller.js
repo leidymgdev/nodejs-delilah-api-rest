@@ -25,11 +25,13 @@ const read = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-    let product = await ProductsDao.findOne(req.body);
+    const { id } = req.params;
+    let product = await ProductsDao.findOne(id);
     if (!product)
       return res.status(NOT_FOUND).json({ error: RESOURSE_DOES_NOT_EXIST });
 
-    await ProductsDao.update(req.body);
+    req.body.id = product.id;
+    await ProductsDao.update(id, req.body);
     res.json(req.body);
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });
@@ -38,11 +40,13 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
   try {
-    let product = await ProductsDao.findOne(req.body);
+    const { id } = req.params;
+    let product = await ProductsDao.findOne(id);
     if (!product)
       return res.status(NOT_FOUND).json({ error: RESOURSE_DOES_NOT_EXIST });
 
-    await ProductsDao.remove(req.body);
+    req.body.id = product.id;
+    await ProductsDao.remove(id);
     res.json(req.body);
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });

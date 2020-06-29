@@ -19,12 +19,6 @@ const Products = database.define("products", {
     allowNull: false,
     validate: { notEmpty: true },
   },
-  stock: {
-    type: Sequelize.INTEGER,
-    require: true,
-    allowNull: false,
-    validate: { notEmpty: true },
-  },
   image: {
     type: Sequelize.STRING,
     require: true,
