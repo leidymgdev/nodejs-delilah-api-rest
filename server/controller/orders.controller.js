@@ -2,6 +2,8 @@ const OrdersDao = require("../repository/dao/orders.dao");
 const OrderDetailsDao = require("../repository/dao/orderDetails.dao");
 const ProductDao = require("../repository/dao/products.dao");
 
+const { ADMIN_USER_ID } = require("../config");
+
 const {
   STATUS_CODE: { BAD_REQUEST },
   GENERAL_MESSAGES: { RESOURSE_DOES_NOT_EXIST }
@@ -51,7 +53,23 @@ const create = async (req, res) => {
 
 const read = async (req, res) => {
   try {
-    return null;
+    const { id } = req.params;
+    const { userTypeId, userId } = req.body;
+    if (userTypeId === ADMIN_USER_ID) {
+      if (id) {
+        const order = await OrdersDao.findOne(id);
+        return res.json(order);
+      }
+      const Orders = await OrdersDao.findAll();
+      return res.json(Orders);
+    } else {
+      if (id) {
+        const order = await OrdersDao.findOneByUserId(id, userId);
+        return res.json(order);
+      }
+      const orders = await OrdersDao.findAllByUserId(userId);
+      return res.json(orders);
+    }
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });
   }
