@@ -8,7 +8,6 @@ const {
   STATUS_CODE: { BAD_REQUEST },
   GENERAL_MESSAGES: { RESOURSE_DOES_NOT_EXIST }
 } = require("../config/constants/index");
-const OrderDetails = require("../repository/models/OrderDetails");
 
 const create = async (req, res) => {
   try {
@@ -62,15 +61,27 @@ const read = async (req, res) => {
         const orderDetail = await OrderDetailsDao.findAllByOrderId(id);
         return res.json({ ...order.dataValues, orderDetail });
       }
-      const Orders = await OrdersDao.findAll();
-      return res.json(Orders);
+      let orders = await OrdersDao.findAll();
+      orders = await Promise.all(
+        orders.map(async (order) => {
+          const orderDetail = await OrderDetailsDao.findAllByOrderId(order.id);
+          return { ...order.dataValues, orderDetail };
+        })
+      );
+      return res.json(orders);
     } else {
       if (id) {
         const order = await OrdersDao.findOneByUserId(id, userId);
         const orderDetail = await OrderDetailsDao.findAllByOrderId(id);
         return res.json({ order, orderDetail });
       }
-      const orders = await OrdersDao.findAllByUserId(userId);
+      let orders = await OrdersDao.findAllByUserId(userId);
+      orders = await Promise.all(
+        orders.map(async (order) => {
+          const orderDetail = await OrderDetailsDao.findAllByOrderId(order.id);
+          return { ...order.dataValues, orderDetail };
+        })
+      );
       return res.json(orders);
     }
   } catch (error) {
