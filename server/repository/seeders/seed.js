@@ -1,39 +1,29 @@
-// Importing Bluebird promises so we can Promise.map
-const Promise = require("bluebird");
+require("../database");
 
-// Bring in the database and all the Models and data to seed
-const database = require("../database");
+const Statuses = require("../models/Statuses");
+const Roles = require("../models/Roles");
+const PaymentMethods = require("../models/PaymentMethods");
+const Users = require("../models/Users");
 
 const statusesData = require("./data/statuses");
-const userTypesData = require("./data/userTypes");
+const rolesData = require("./data/roles");
 const paymentMethodsData = require("./data/paymentMethods");
 const usersData = require("./data/users");
 
-const allData = {
-  statuses: statusesData,
-  usertypes: userTypesData,
-  paymentmethods: paymentMethodsData,
-  users: usersData,
-};
+const statusesBulkCreate = () => Statuses.bulkCreate(statusesData);
+const rolesBulkCreate = () => Roles.bulkCreate(rolesData);
+const paymentMethodsBulkCreate = () =>
+  PaymentMethods.bulkCreate(paymentMethodsData);
+const usersBulkCreate = () => Users.bulkCreate(usersData);
 
-database
-  .sync({ force: true })
-  .then(function () {
-    console.log("Synced DB and dropped old data.");
-    return Promise.map(Object.keys(allData), (name) => {
-      return Promise.map(allData[name], (element) => {
-        return database.model(name).create(element);
-      });
-    });
+Promise.all([
+  statusesBulkCreate(),
+  rolesBulkCreate(),
+  paymentMethodsBulkCreate(),
+  usersBulkCreate()
+])
+  .then(() => {
+    console.log("Success in bulk create seeders.");
+    process.exit();
   })
-  .then(function () {
-    console.log("Seeded successfully.");
-  })
-  .catch(function (err) {
-    console.error("Error: ", err, err.stack);
-  })
-  .finally(function () {
-    database.close();
-    console.log("Finished.");
-    return null;
-  });
+  .catch((error) => console.error(`Error in bulk create seeders ${error}`));

@@ -17,29 +17,36 @@ const database = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
     min: 1,
     acquire: 30000,
     idle: 10000
-  }
+  },
+  timezone: "-05:00"
 });
 
 module.exports = database;
 
 // Associations
 const Statuses = require("./models/Statuses");
-const UserTypes = require("./models/UserTypes");
+const Roles = require("./models/Roles");
 const PaymentMethods = require("./models/PaymentMethods");
 const Users = require("./models/Users");
 const Products = require("./models/Products");
 const Orders = require("./models/Orders");
 const OrderDetails = require("./models/OrderDetails");
 
-Users.belongsTo(UserTypes, {
-  foreignKey: { name: "userTypeId", allowNull: false }
-});
+Roles.hasMany(Users, { foreignKey: { allowNull: false } });
+Users.belongsTo(Roles);
 
-Orders.belongsTo(Users, { foreignKey: { allowNull: false } });
-Orders.belongsTo(Statuses, { foreignKey: { allowNull: false } });
-Orders.belongsTo(PaymentMethods, {
-  foreignKey: { name: "paymentMethodId", allowNull: false }
-});
+Users.hasMany(Orders, { foreignKey: { allowNull: false } });
+Orders.belongsTo(Users);
 
-OrderDetails.belongsTo(Orders, { foreignKey: "idOrder" });
-OrderDetails.belongsTo(Products, { foreignKey: "idProduct" });
+Statuses.hasMany(Orders, {
+  foreignKey: { allowNull: false }
+});
+Orders.belongsTo(Statuses);
+
+PaymentMethods.hasMany(Orders, {
+  foreignKey: { allowNull: false }
+});
+Orders.belongsTo(PaymentMethods);
+
+Orders.belongsToMany(Products, { through: OrderDetails });
+Products.belongsToMany(Orders, { through: OrderDetails });

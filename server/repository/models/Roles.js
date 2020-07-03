@@ -1,18 +1,18 @@
 const Sequelize = require("sequelize");
 const database = require("../database");
 
-const UserTypes = database.define("usertypes", {
+const Roles = database.define("roles", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
-    autoIncrement: true,
+    autoIncrement: true
   },
   description: {
     type: Sequelize.STRING,
     require: true,
     allowNull: false,
-    validate: { notEmpty: true },
-  },
+    validate: { notEmpty: true }
+  }
 });
 
-module.exports = UserTypes;
+module.exports = Roles;

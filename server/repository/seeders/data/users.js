@@ -7,8 +7,8 @@ const usersData = [
     fullname: "administrator",
     cellphone: "+57 000451232",
     shippingAddress: "Carrera 1 # 1 - 0",
-    userTypeId: 2,
-  },
+    roleId: 2
+  }
 ];
 
 module.exports = usersData;
