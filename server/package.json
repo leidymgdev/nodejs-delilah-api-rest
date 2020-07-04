@@ -2,7 +2,7 @@
   "name": "delilah-api-rest-nodejs",
   "version": "1.0.0",
   "description": "Api rest Delilah Restaurant",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "start": "nodemon server/app.js",
     "seed": "node server/repository/seeders/seed.js"
