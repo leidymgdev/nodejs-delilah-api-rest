@@ -1,0 +1,168 @@
+openapi: 3.0.1
+info:
+  title: Swagger Artist
+  description: >-
+    This is a sample server Artist server.
+  contact:
+    email: martinezgiraldoleidy@gmail.com
+  version: 1.0.0
+servers:
+  - url: 'https://artist.swagger.io/v1'
+tags:
+  - name: Artist
+    description: Everything about Artists
+paths:
+  /artist:
+      get:
+        tags:
+          - Artist
+        summary: Get artist
+        operationId: logoutUser
+        responses:
+          default:
+            description: successful operation
+            content: {}
+      post:
+        tags:
+          - Artist
+        summary: Create artist
+        description: Create artist
+        operationId: createArtist
+        requestBody:
+          description: Created artist object
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Artist'
+          required: true
+        responses:
+          default:
+            description: successful operation
+            content: {}
+        x-codegen-request-body-name: body
+  '/artist/{id}':
+    get:
+      tags:
+        - Artist
+      summary: Get artist by id
+      operationId: getArtistById
+      parameters:
+        - name: id
+          in: path
+          description: 'The id that needs to be fetched. Use 1 for testing. '
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Artist'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artist'
+        '400':
+          description: Invalid id supplied
+          content: {}
+        '404':
+          description: Artist not found
+          content: {}  
+    put:
+      tags:
+        - Artist
+      summary: Updated artist by id
+      description: Updated artist
+      operationId: updateArtist
+      parameters:
+        - name: id
+          in: path
+          description: id that need to be updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Updated artist object
+        content:
+          '*/*':
+            schema:
+              $ref: '#/components/schemas/Artist'
+        required: true
+      responses:
+        '400':
+          description: Invalid id supplied
+          content: {}
+        '404':
+          description: Artist not found
+          content: {}
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - Artist
+      summary: Delete artist by id
+      description: Delete artist
+      operationId: deleteArtist
+      parameters:
+        - name: id
+          in: path
+          description: The id that needs to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '400':
+          description: Invalid id supplied
+          content: {}
+        '404':
+          description: Artist not found
+          content: {}
+    
+components:
+  schemas:
+    Artist:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        lastname:
+          type: string
+        birthdate:
+          type: string
+          format: date-time
+        deathDate:
+          type: string
+          format: date-time
+        photography:
+          type: string
+        description:
+          type: string
+        urlWebSite:
+          type: string
+        petId:
+          type: integer
+          format: int64
+    ApiResponse:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+        message:
+          type: string
+  securitySchemes:
+    artist_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: 'http://artist.swagger.io/oauth/dialog'
+          scopes:
+            'write:artist': modify artists in your account
+            'read:artist': read your artists
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header

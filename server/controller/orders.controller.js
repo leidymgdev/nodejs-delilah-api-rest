@@ -1,6 +1,7 @@
 const OrdersDao = require("../repository/dao/orders.dao");
 const OrderDetailsDao = require("../repository/dao/orderDetails.dao");
-const ProductDao = require("../repository/dao/products.dao");
+const ProductsDao = require("../repository/dao/products.dao");
+const { asyncForEach } = require("../utils/index");
 
 const { ADMIN_USER_ID } = require("../config");
 
@@ -11,84 +12,43 @@ const {
 
 const create = async (req, res) => {
   try {
-    const {
-      userId,
-      order: { statusId, paymentMethodId, orderDetails }
-    } = req.body;
+    // Create and save the order
+    const savedOrder = await OrdersDao.create(req.body);
 
-    let order = { description: "", userId, statusId, paymentMethodId };
-    order = await OrdersDao.create(order);
+    await createOrderDetail(savedOrder.id, req.body.products);
 
-    const resultOrderDetails = await createBulkOrderDetails(
-      order.id,
-      orderDetails
-    );
-
-    const successOrderDetails = resultOrderDetails.resultOrderDetails.filter(
-      (orderDetail) => !orderDetail.error
-    );
-
-    const errorOrderDetails = resultOrderDetails.resultOrderDetails
-      .filter((orderDetail) => orderDetail.error)
-      .map((orderDetail) => ({
-        message: orderDetail.message,
-        productId: orderDetail.productId
-      }));
-
-    const description = resultOrderDetails.description;
-    if (description) await OrdersDao.update(order.id, { description });
-
-    return res.json({
-      ...order.dataValues,
-      description,
-      orderDetails: {
-        success: successOrderDetails,
-        failure: errorOrderDetails
-      }
-    });
+    // If everyting goes well, respond with the order
+    res.json(savedOrder);
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });
   }
 };
 
+const createOrderDetail = async (orderId, products) => {
+  // Loop through all the items in req.products
+  await asyncForEach(products, async (item) => {
+    // Search for the product with the givenId and make sure it exists. If it doesn't, respond with status 400.
+    const product = await ProductsDao.findOneById(item.id);
+    if (!product)
+      return res.status(BAD_REQUEST).json({ error: RESOURSE_DOES_NOT_EXIST });
+
+    // Create a dictionary with which to create the Order Detail
+    const orderDetail = {
+      orderId,
+      productId: item.id,
+      quantity: item.quantity
+    };
+
+    // Create and save a Order Detail
+    await OrderDetailsDao.create(orderDetail);
+  });
+};
+
 const read = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { roleId, userId } = req.body;
-
-    var orders = await OrdersDao.findAll();
+    // Get all orders
+    const orders = await OrdersDao.findAll();
     return res.json(orders);
-    /*
-    
-    if (roleId === ADMIN_USER_ID) {
-      if (id) {
-        const order = await OrdersDao.findOne(id);
-        const orderDetail = await OrderDetailsDao.findAllByOrderId(id);
-        return res.json({ ...order.dataValues, orderDetail });
-      }
-      let orders = await OrdersDao.findAll();
-      orders = await Promise.all(
-        orders.map(async (order) => {
-          const orderDetail = await OrderDetailsDao.findAllByOrderId(order.id);
-          return { ...order.dataValues, orderDetail };
-        })
-      );
-      return res.json(orders);
-    } else {
-      if (id) {
-        const order = await OrdersDao.findOneByUserId(id, userId);
-        const orderDetail = await OrderDetailsDao.findAllByOrderId(id);
-        return res.json({ order, orderDetail });
-      }
-      let orders = await OrdersDao.findAllByUserId(userId);
-      orders = await Promise.all(
-        orders.map(async (order) => {
-          const orderDetail = await OrderDetailsDao.findAllByOrderId(order.id);
-          return { ...order.dataValues, orderDetail };
-        })
-      );
-      return res.json(orders);
-    }*/
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });
   }
@@ -107,61 +67,6 @@ const remove = async (req, res) => {
     return null;
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });
-  }
-};
-
-const createBulkOrderDetails = async (orderId, orderDetails) => {
-  try {
-    let resultOrderDetails = await Promise.all(
-      orderDetails.map((orderDetail) => createOrderDetail(orderId, orderDetail))
-    );
-
-    const description = resultOrderDetails.reduce((str, orderDetail) => {
-      if (!orderDetail.error) {
-        const { quantity, productName } = orderDetail;
-        str += `${quantity} x ${productName} `;
-      }
-      return str;
-    }, "");
-
-    return {
-      description,
-      resultOrderDetails
-    };
-  } catch (error) {
-    console.log("createBulkOrderDetails", error);
-  }
-};
-
-const createOrderDetail = async (orderId, orderDetail) => {
-  try {
-    const { productId } = orderDetail;
-
-    const product = await ProductDao.findOne(productId);
-    if (!product) {
-      return {
-        error: true,
-        message: RESOURSE_DOES_NOT_EXIST,
-        productId: productId
-      };
-    }
-
-    const price = product.price;
-
-    let data = {
-      ...orderDetail,
-      orderId,
-      productId,
-      price: Number(price)
-    };
-
-    const resultOrderDetail = await OrderDetailsDao.create(data);
-    return {
-      productName: product.name,
-      ...resultOrderDetail.dataValues
-    };
-  } catch (error) {
-    console.log("createOrderDetail", error);
   }
 };
 

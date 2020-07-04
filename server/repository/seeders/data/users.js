@@ -2,7 +2,7 @@ const usersData = [
   {
     id: 1,
     email: "admin@delilahresto.com",
-    password: "admin135delilahresto",
+    password: "$2a$10$9JpK/YFPOh3KUDHj7NgwTey9jE4WBA4d4GzNOhrwoIR5cvMLeHFzq",
     username: "admin",
     fullname: "administrator",
     cellphone: "+57 000451232",
@@ -10,5 +10,7 @@ const usersData = [
     roleId: 2
   }
 ];
+
+// password = admin135delilahresto
 
 module.exports = usersData;

@@ -14,13 +14,15 @@ const create = async (req, res) => {
   try {
     const { password } = req.body;
 
-    const user = await UsersDao.findone(req.body);
+    const user = await UsersDao.findoneByEmailOrUsername(req.body);
     if (user)
       return res.status(CONFLICT).json({ error: RESOURCE_ALREADY_EXISTS });
 
     req.body.password = bcrypt.hashSync(password, SALT_BCRYPT);
 
     const result = await UsersDao.create(req.body);
+    if (result.error)
+      return res.status(BAD_REQUEST).json({ error: result.error });
     res.json(result);
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });
@@ -31,7 +33,7 @@ const login = async (req, res) => {
   try {
     const { password } = req.body;
 
-    const user = await UsersDao.findone(req.body);
+    const user = await UsersDao.findoneByEmailOrUsername(req.body);
     if (!user) return res.status(UNAUTHORIZED).json({ error: BAD_CREDENTIALS });
 
     const validatePassword = await bcrypt.compare(password, user.password);

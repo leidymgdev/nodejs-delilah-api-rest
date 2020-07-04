@@ -32,21 +32,40 @@ const Products = require("./models/Products");
 const Orders = require("./models/Orders");
 const OrderDetails = require("./models/OrderDetails");
 
+// Users and Roles
 Roles.hasMany(Users, { foreignKey: { allowNull: false } });
-Users.belongsTo(Roles);
+Users.belongsTo(Roles, { foreignKey: { allowNull: false, defaultValue: 1 } });
 
+// Users and Orders
 Users.hasMany(Orders, { foreignKey: { allowNull: false } });
 Orders.belongsTo(Users);
 
+// Orders and Statuses
 Statuses.hasMany(Orders, {
   foreignKey: { allowNull: false }
 });
-Orders.belongsTo(Statuses);
+Orders.belongsTo(Statuses, {
+  foreignKey: { allowNull: false, defaultValue: 1 }
+});
 
+// Orders and Payment Methods
 PaymentMethods.hasMany(Orders, {
   foreignKey: { allowNull: false, name: "paymentMethodId" }
 });
-Orders.belongsTo(PaymentMethods);
+Orders.belongsTo(PaymentMethods, {
+  foreignKey: { allowNull: false, defaultValue: 1 }
+});
 
-Orders.belongsToMany(Products, { through: OrderDetails });
-Products.belongsToMany(Orders, { through: OrderDetails });
+// Products and Orders
+Orders.belongsToMany(Products, {
+  through: OrderDetails,
+  as: "products",
+  foreignKey: "orderId",
+  otherKey: "productId"
+});
+Products.belongsToMany(Orders, {
+  through: OrderDetails,
+  as: "orders",
+  foreignKey: "productId",
+  otherKey: "orderId"
+});

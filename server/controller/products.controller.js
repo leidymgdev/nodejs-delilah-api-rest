@@ -2,13 +2,19 @@ const ProductsDao = require("../repository/dao/products.dao");
 
 const {
   STATUS_CODE: { BAD_REQUEST, NOT_FOUND },
-  GENERAL_MESSAGES: { RESOURSE_DOES_NOT_EXIST }
+  GENERAL_MESSAGES: {
+    RESOURSE_DOES_NOT_EXIST,
+    RESOURCE_UPDATED_SUCCESSFULLY,
+    RESOURCE_REMOVED_SUCCESSFULLY
+  }
 } = require("../config/constants/index");
 
 const create = async (req, res) => {
   try {
-    const product = await ProductsDao.create(req.body);
-    res.json(product);
+    const result = await ProductsDao.create(req.body);
+    if (result.error)
+      return res.status(BAD_REQUEST).json({ error: result.error });
+    res.json(result);
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });
   }
@@ -26,13 +32,16 @@ const read = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id } = req.params;
-    let product = await ProductsDao.findOne(id);
+    let product = await ProductsDao.findOneById(id);
     if (!product)
       return res.status(NOT_FOUND).json({ error: RESOURSE_DOES_NOT_EXIST });
 
     req.body.id = product.id;
-    await ProductsDao.update(id, req.body);
-    res.json(req.body);
+    const result = await ProductsDao.update(id, req.body);
+    if (result.error)
+      return res.status(BAD_REQUEST).json({ error: result.error });
+
+    res.json({ message: RESOURCE_UPDATED_SUCCESSFULLY });
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });
   }
@@ -41,13 +50,16 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   try {
     const { id } = req.params;
-    let product = await ProductsDao.findOne(id);
+    let product = await ProductsDao.findOneById(id);
     if (!product)
       return res.status(NOT_FOUND).json({ error: RESOURSE_DOES_NOT_EXIST });
 
     req.body.id = product.id;
-    await ProductsDao.remove(id);
-    res.json(req.body);
+    const result = await ProductsDao.remove(id);
+    if (result.error)
+      return res.status(BAD_REQUEST).json({ error: result.error });
+
+    res.json({ message: RESOURCE_REMOVED_SUCCESSFULLY });
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });
   }
