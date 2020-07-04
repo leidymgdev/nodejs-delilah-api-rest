@@ -1,49 +1,27 @@
 const OrderDetails = require("../models/OrderDetails");
 
 const create = (body) => {
-  return OrderDetails.create(body)
-    .then((result) => result)
-    .catch((err) => ({
-      error: `>> Error while creating Order Detail: ${err}`
-    }));
+  return OrderDetails.create(body);
 };
 
 const findAll = () => {
-  return OrderDetails.findAll()
-    .then((result) => result)
-    .catch((err) => ({
-      error: `>> Error while retrieving Order Details: ${err}`
-    }));
+  return OrderDetails.findAll();
 };
 
 const findAllByOrderId = (orderId) => {
-  return OrderDetails.findAll({ where: { orderId } })
-    .then((result) => result)
-    .catch((err) => ({
-      error: `>> Error while retrieving Order Details: ${err}`
-    }));
+  return OrderDetails.findAll({ where: { orderId } });
 };
 
 const findOneById = (id) => {
-  return OrderDetails.findOne({ where: { id } })
-    .then((result) => result)
-    .catch((err) => ({ error: `>> Error while finding Order Detail: ${err}` }));
+  return OrderDetails.findOne({ where: { id } });
 };
 
 const update = (body) => {
-  return OrderDetails.update(body, { where: { id: body.id } })
-    .then((result) => result)
-    .catch((err) => ({
-      error: `>> Error while updating Order Detail: ${err}`
-    }));
+  return OrderDetails.update(body, { where: { id: body.id } });
 };
 
 const remove = (id) => {
-  return OrderDetails.destroy({ where: { id } })
-    .then((result) => result)
-    .catch((err) => ({
-      error: `>> Error while removing Order Detail: ${err}`
-    }));
+  return OrderDetails.destroy({ where: { id } });
 };
 
 module.exports = {

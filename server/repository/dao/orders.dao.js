@@ -3,9 +3,7 @@ const OrderDetails = require("../models/OrderDetails");
 const Products = require("../models/Products");
 
 const create = (body) => {
-  return Orders.create(body)
-    .then((result) => result)
-    .catch((err) => ({ error: `>> Error while creating Order: ${err}` }));
+  return Orders.create(body);
 };
 
 const findAll = () => {
@@ -26,39 +24,27 @@ const findAll = () => {
         }
       }
     ]
-  })
-    .then((result) => result)
-    .catch((err) => ({ error: `>> Error while retrieving Order: ${err}` }));
+  });
 };
 
 const findAllByUserId = (userId) => {
-  return Orders.findAll({ where: { userId } })
-    .then((result) => result)
-    .catch((err) => ({ error: `>> Error while retrieving Order: ${err}` }));
+  return Orders.findAll({ where: { userId } });
 };
 
 const findOneById = (id) => {
-  return Orders.findOne({ where: { id } })
-    .then((result) => result)
-    .catch((err) => ({ error: `>> Error while finding Order: ${err}` }));
+  return Orders.findOne({ where: { id } });
 };
 
 const findOneByIdAndUserId = (id, userId) => {
-  return Orders.findOne({ where: { id, userId } })
-    .then((result) => result)
-    .catch((err) => ({ error: `>> Error while finding Order: ${err}` }));
+  return Orders.findOne({ where: { id, userId } });
 };
 
 const update = (id, body) => {
-  return Orders.update(body, { where: { id } })
-    .then((result) => result)
-    .catch((err) => ({ error: `>> Error while updating Order: ${err}` }));
+  return Orders.update(body, { where: { id } });
 };
 
 const remove = (id) => {
-  return Orders.destroy({ where: { id } })
-    .then((result) => result)
-    .catch((err) => ({ error: `>> Error while removing Order: ${err}` }));
+  return Orders.destroy({ where: { id } });
 };
 
 module.exports = {

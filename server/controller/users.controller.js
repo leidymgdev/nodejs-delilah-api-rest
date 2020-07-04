@@ -21,8 +21,6 @@ const create = async (req, res) => {
     req.body.password = bcrypt.hashSync(password, SALT_BCRYPT);
 
     const result = await UsersDao.create(req.body);
-    if (result.error)
-      return res.status(BAD_REQUEST).json({ error: result.error });
     res.json(result);
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });

@@ -12,8 +12,6 @@ const {
 const create = async (req, res) => {
   try {
     const result = await ProductsDao.create(req.body);
-    if (result.error)
-      return res.status(BAD_REQUEST).json({ error: result.error });
     res.json(result);
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });
@@ -37,9 +35,7 @@ const update = async (req, res) => {
       return res.status(NOT_FOUND).json({ error: RESOURCE_DOES_NOT_EXIST });
 
     req.body.id = product.id;
-    const result = await ProductsDao.update(id, req.body);
-    if (result.error)
-      return res.status(BAD_REQUEST).json({ error: result.error });
+    await ProductsDao.update(id, req.body);
 
     res.json({ message: RESOURCE_UPDATED_SUCCESSFULLY });
   } catch (error) {
@@ -55,9 +51,7 @@ const remove = async (req, res) => {
       return res.status(NOT_FOUND).json({ error: RESOURCE_DOES_NOT_EXIST });
 
     req.body.id = product.id;
-    const result = await ProductsDao.remove(id);
-    if (result.error)
-      return res.status(BAD_REQUEST).json({ error: result.error });
+    await ProductsDao.remove(id);
 
     res.json({ message: RESOURCE_REMOVED_SUCCESSFULLY });
   } catch (error) {
