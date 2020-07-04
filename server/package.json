@@ -4,8 +4,8 @@
   "description": "Api rest Delilah Restaurant",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server/app.js",
-    "seed": "node server/repository/seeders/seed.js"
+    "start": "nodemon app.js",
+    "seed": "node repository/seeders/seed.js"
   },
   "repository": {
     "type": "git",

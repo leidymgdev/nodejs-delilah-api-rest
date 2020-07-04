@@ -6,7 +6,7 @@ const { ADMIN_USER_ID } = require("../config");
 
 const {
   STATUS_CODE: { BAD_REQUEST },
-  GENERAL_MESSAGES: { RESOURCE_DOES_NOT_EXIST }
+  GENERAL_MESSAGES: { RESOURCE_DOES_NOT_EXIST },
 } = require("../config/constants/index");
 
 const create = async (req, res) => {
@@ -41,7 +41,7 @@ const createOrderDetail = async (orderId, products) => {
     if (!product) {
       error.push({
         message: RESOURCE_DOES_NOT_EXIST,
-        id: item.id
+        id: item.id,
       });
     } else {
       description += `${item.quantity} x ${product.name} `;
@@ -50,7 +50,7 @@ const createOrderDetail = async (orderId, products) => {
       const orderDetail = {
         orderId,
         productId: item.id,
-        quantity: item.quantity
+        quantity: item.quantity,
       };
 
       // Create and save a Order Detail
@@ -62,14 +62,27 @@ const createOrderDetail = async (orderId, products) => {
   return {
     description,
     success,
-    error
+    error,
   };
 };
 
 const read = async (req, res) => {
   try {
     // Get all orders
-    const orders = await OrdersDao.findAll();
+    let orders = await OrdersDao.findAll();
+
+    // Calcule total for each order
+    orders = orders.map((item) => {
+      const total = item.products.reduce((accumulator, currentValue) => {
+        const value = currentValue.price * currentValue.orderDetails.quantity;
+        return accumulator + value;
+      }, 0);
+      return {
+        ...item.dataValues,
+        total,
+      };
+    });
+
     return res.json(orders);
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });
@@ -96,5 +109,5 @@ module.exports = {
   create,
   read,
   update,
-  remove
+  remove,
 };
