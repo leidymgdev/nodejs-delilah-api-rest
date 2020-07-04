@@ -54,8 +54,13 @@ const create = async (req, res) => {
 const read = async (req, res) => {
   try {
     const { id } = req.params;
-    const { userTypeId, userId } = req.body;
-    if (userTypeId === ADMIN_USER_ID) {
+    const { roleId, userId } = req.body;
+
+    var orders = await OrdersDao.findAll();
+    return res.json(orders);
+    /*
+    
+    if (roleId === ADMIN_USER_ID) {
       if (id) {
         const order = await OrdersDao.findOne(id);
         const orderDetail = await OrderDetailsDao.findAllByOrderId(id);
@@ -83,7 +88,7 @@ const read = async (req, res) => {
         })
       );
       return res.json(orders);
-    }
+    }*/
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });
   }

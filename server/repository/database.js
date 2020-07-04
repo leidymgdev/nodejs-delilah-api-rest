@@ -44,7 +44,7 @@ Statuses.hasMany(Orders, {
 Orders.belongsTo(Statuses);
 
 PaymentMethods.hasMany(Orders, {
-  foreignKey: { allowNull: false }
+  foreignKey: { allowNull: false, name: "paymentMethodId" }
 });
 Orders.belongsTo(PaymentMethods);
 

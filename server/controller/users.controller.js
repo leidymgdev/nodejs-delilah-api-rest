@@ -38,13 +38,9 @@ const login = async (req, res) => {
     if (!validatePassword)
       return res.status(UNAUTHORIZED).json({ error: BAD_CREDENTIALS });
 
-    const token = jwt.sign(
-      { id: user.id, userTypeId: user.userTypeId },
-      SECRET_TOKEN,
-      {
-        expiresIn: EXPIRES_IN_TOKEN
-      }
-    );
+    const token = jwt.sign({ id: user.id, roleId: user.roleId }, SECRET_TOKEN, {
+      expiresIn: EXPIRES_IN_TOKEN
+    });
     return res.header("auth-token", token).json({ token });
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });
