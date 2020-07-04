@@ -11,14 +11,19 @@ const {
 const database = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
   host: DB_HOST,
   dialect: DB_DIALECT,
-  logging: false,
+  dialectOptions: {
+    useUTC: false, // For reading from database (timezone)
+    dateStrings: true,
+    typeCast: true
+  },
   pool: {
     max: 5,
     min: 1,
     acquire: 30000,
     idle: 10000
   },
-  timezone: "-05:00"
+  logging: false,
+  timezone: "-05:00" // For writing to database
 });
 
 module.exports = database;

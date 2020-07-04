@@ -1,13 +1,12 @@
 const OrdersDao = require("../repository/dao/orders.dao");
 const OrderDetailsDao = require("../repository/dao/orderDetails.dao");
 const ProductsDao = require("../repository/dao/products.dao");
-const { asyncForEach } = require("../utils/index");
 
 const { ADMIN_USER_ID } = require("../config");
 
 const {
   STATUS_CODE: { BAD_REQUEST },
-  GENERAL_MESSAGES: { RESOURSE_DOES_NOT_EXIST }
+  GENERAL_MESSAGES: { RESOURCE_DOES_NOT_EXIST }
 } = require("../config/constants/index");
 
 const create = async (req, res) => {
@@ -26,11 +25,11 @@ const create = async (req, res) => {
 
 const createOrderDetail = async (orderId, products) => {
   // Loop through all the items in req.products
-  await asyncForEach(products, async (item) => {
+  for (const item of products) {
     // Search for the product with the givenId and make sure it exists. If it doesn't, respond with status 400.
     const product = await ProductsDao.findOneById(item.id);
     if (!product)
-      return res.status(BAD_REQUEST).json({ error: RESOURSE_DOES_NOT_EXIST });
+      return res.status(BAD_REQUEST).json({ error: RESOURCE_DOES_NOT_EXIST });
 
     // Create a dictionary with which to create the Order Detail
     const orderDetail = {
@@ -41,7 +40,7 @@ const createOrderDetail = async (orderId, products) => {
 
     // Create and save a Order Detail
     await OrderDetailsDao.create(orderDetail);
-  });
+  }
 };
 
 const read = async (req, res) => {
