@@ -15,15 +15,15 @@ const findAll = () => {
         as: "products",
         required: false,
         // Pass in the Product attributes that you want to retrieve
-        attributes: ["id", "name"],
+        attributes: ["id", "name", "price"],
         through: {
           // This block of code allows you to retrieve the properties of the join table
           model: OrderDetails,
           as: "orderDetails",
-          attributes: ["quantity"]
-        }
-      }
-    ]
+          attributes: ["quantity"],
+        },
+      },
+    ],
   });
 };
 
@@ -54,5 +54,5 @@ module.exports = {
   findOneById,
   findOneByIdAndUserId,
   update,
-  remove
+  remove,
 };
