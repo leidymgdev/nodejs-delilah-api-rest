@@ -12,8 +12,8 @@ const OrderDetails = database.define("orderDetails", {
     validate: { notEmpty: true },
     references: {
       model: Orders,
-      key: "id",
-    },
+      key: "id"
+    }
   },
   productId: {
     type: Sequelize.INTEGER,
@@ -22,15 +22,15 @@ const OrderDetails = database.define("orderDetails", {
     validate: { notEmpty: true },
     references: {
       model: Products,
-      key: "id",
-    },
+      key: "id"
+    }
   },
   quantity: {
     type: Sequelize.INTEGER,
     require: true,
     allowNull: false,
-    validate: { notEmpty: true },
-  },
+    validate: { notEmpty: true }
+  }
 });
 
 module.exports = OrderDetails;

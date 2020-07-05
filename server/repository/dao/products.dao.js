@@ -25,5 +25,5 @@ module.exports = {
   findAll,
   findOneById,
   update,
-  remove,
+  remove
 };

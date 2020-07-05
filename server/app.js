@@ -8,11 +8,7 @@ const router = require("./routes/index");
 
 const app = express();
 app.use(express.json());
-app.use(
-  express.urlencoded({
-    extended: true,
-  })
-);
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Routes
@@ -23,9 +19,7 @@ app.listen(PORT, () => {
 
   // Syncronize database for creating the models if not exits
   database
-    .sync({
-      force: false,
-    })
+    .sync({ force: false })
     .then(() => {
       console.log("Database is synced.");
     })

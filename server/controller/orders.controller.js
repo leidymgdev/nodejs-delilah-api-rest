@@ -6,7 +6,7 @@ const { ADMIN_ROLE_ID } = require("../config");
 
 const {
   STATUS_CODE: { BAD_REQUEST, NOT_FOUND },
-  GENERAL_MESSAGES: { RESOURCE_DOES_NOT_EXIST },
+  GENERAL_MESSAGES: { RESOURCE_DOES_NOT_EXIST, ID_STATUS_RESOURCE_REQUIRED }
 } = require("../config/constants/index");
 
 const create = async (req, res) => {
@@ -41,7 +41,7 @@ const createOrderDetail = async (orderId, products) => {
     if (!product) {
       error.push({
         message: RESOURCE_DOES_NOT_EXIST,
-        id: item.id,
+        id: item.id
       });
     } else {
       description += `${item.quantity} x ${product.name} `;
@@ -50,7 +50,7 @@ const createOrderDetail = async (orderId, products) => {
       const orderDetail = {
         orderId,
         productId: item.id,
-        quantity: item.quantity,
+        quantity: item.quantity
       };
 
       // Create and save a Order Detail
@@ -62,7 +62,7 @@ const createOrderDetail = async (orderId, products) => {
   return {
     description,
     success,
-    error,
+    error
   };
 };
 
@@ -138,7 +138,7 @@ const calculateTotal = (order) => {
   return order.products.reduce((accumulator, product) => {
     const {
       price,
-      orderDetails: { quantity },
+      orderDetails: { quantity }
     } = product;
     const value = price * quantity;
     return accumulator + value;
@@ -157,6 +157,11 @@ const updateStatus = async (req, res) => {
     const { id } = req.params;
     const { statusId } = req.body;
 
+    if (!statusId)
+      return res
+        .status(BAD_REQUEST)
+        .json({ error: ID_STATUS_RESOURCE_REQUIRED });
+
     let order = await OrdersDao.findOneById(id);
     if (!order)
       return res.status(NOT_FOUND).json({ error: RESOURCE_DOES_NOT_EXIST });
@@ -173,5 +178,5 @@ module.exports = {
   create,
   readAll,
   readById,
-  updateStatus,
+  updateStatus
 };

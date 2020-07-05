@@ -1,7 +1,6 @@
 const Orders = require("../models/Orders");
 const OrderDetails = require("../models/OrderDetails");
 const Products = require("../models/Products");
-const Users = require("../models/Users");
 
 const ProductsJoinOrderDetails = [
   {
@@ -14,9 +13,9 @@ const ProductsJoinOrderDetails = [
       // This block of code allows you to retrieve the properties of the join table
       model: OrderDetails,
       as: "orderDetails",
-      attributes: ["quantity"],
-    },
-  },
+      attributes: ["quantity"]
+    }
+  }
 ];
 
 const create = (body) => {
@@ -30,7 +29,7 @@ const findAll = () => {
 const findAllByUserId = (userId) => {
   return Orders.findAll({
     where: { userId },
-    include: [ProductsJoinOrderDetails],
+    include: [ProductsJoinOrderDetails]
   });
 };
 
@@ -41,7 +40,7 @@ const findOneById = (id) => {
 const findOneByIdAndUserId = (id, userId) => {
   return Orders.findOne({
     where: { id, userId },
-    include: ProductsJoinOrderDetails,
+    include: ProductsJoinOrderDetails
   });
 };
 
@@ -67,5 +66,5 @@ module.exports = {
   findOneByIdAndUserId,
   update,
   updateStatus,
-  remove,
+  remove
 };

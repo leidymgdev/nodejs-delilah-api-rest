@@ -1,8 +1,8 @@
 const paymentMethodsData = [
   {
     id: 1,
-    description: "Cash",
-  },
+    description: "Cash"
+  }
 ];
 
 module.exports = paymentMethodsData;

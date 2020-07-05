@@ -36,7 +36,7 @@ Promise.all([
   rolesBulkCreate(),
   statusesBulkCreate(),
   paymentMethodsBulkCreate(),
-  usersBulkCreate(),
+  usersBulkCreate()
 ])
   .then(() => {
     console.log("Success in bulk create seeders.");

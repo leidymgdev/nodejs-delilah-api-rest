@@ -2,7 +2,7 @@ const ProductsDao = require("../repository/dao/products.dao");
 
 const {
   STATUS_CODE: { BAD_REQUEST, NOT_FOUND },
-  GENERAL_MESSAGES: { RESOURCE_DOES_NOT_EXIST, RESOURCE_REMOVED_SUCCESSFULLY },
+  GENERAL_MESSAGES: { RESOURCE_DOES_NOT_EXIST, RESOURCE_REMOVED_SUCCESSFULLY }
 } = require("../config/constants/index");
 
 const create = async (req, res) => {
@@ -42,6 +42,7 @@ const update = async (req, res) => {
 const remove = async (req, res) => {
   try {
     const { id } = req.params;
+
     let product = await ProductsDao.findOneById(id);
     if (!product)
       return res.status(NOT_FOUND).json({ error: RESOURCE_DOES_NOT_EXIST });
@@ -58,5 +59,5 @@ module.exports = {
   create,
   read,
   update,
-  remove,
+  remove
 };

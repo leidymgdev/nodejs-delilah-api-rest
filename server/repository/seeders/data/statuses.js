@@ -1,28 +1,28 @@
 const statusesData = [
   {
     id: 1,
-    description: "New",
+    description: "New"
   },
   {
     id: 2,
-    description: "Confirmed",
+    description: "Confirmed"
   },
   {
     id: 3,
-    description: "Prepared",
+    description: "Prepared"
   },
   {
     id: 4,
-    description: "Sent",
+    description: "Sent"
   },
   {
     id: 5,
-    description: "Delivered",
+    description: "Delivered"
   },
   {
     id: 6,
-    description: "Cancelled",
-  },
+    description: "Cancelled"
+  }
 ];
 
 module.exports = statusesData;

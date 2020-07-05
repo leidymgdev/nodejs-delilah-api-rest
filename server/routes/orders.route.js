@@ -1,11 +1,14 @@
 const router = require("express").Router();
 const {
   validateToken,
-  validateAdminPermissions,
+  validateAdminPermissions
 } = require("../middlewares/users.middleware");
+
+const { validateRequest } = require("../middlewares/orders.middleware");
+
 const controller = require("../controller/orders.controller");
 
-router.post("/", validateToken, (req, res) => {
+router.post("/", validateRequest, validateToken, (req, res) => {
   controller.create(req, res);
 });
 
@@ -19,10 +22,6 @@ router.get("/:id", validateToken, (req, res) => {
 
 router.put("/:id", validateToken, validateAdminPermissions, (req, res) => {
   controller.updateStatus(req, res);
-});
-
-router.delete("/:id", validateToken, validateAdminPermissions, (req, res) => {
-  controller.remove(req, res);
 });
 
 module.exports = router;
