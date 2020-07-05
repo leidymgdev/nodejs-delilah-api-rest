@@ -5,7 +5,7 @@ const Users = require("../models/Users");
 const PaymentMethods = require("../models/PaymentMethods");
 const Statuses = require("../models/Statuses");
 
-const ProductsJoinOrderDetails = [
+const associationsOfAnOrder = [
   {
     model: Products,
     as: "products",
@@ -54,7 +54,7 @@ const create = (body) => {
 const findAll = () => {
   return Orders.findAll({
     attributes: ["id", "description", "createdAt", "updatedAt"],
-    include: ProductsJoinOrderDetails
+    include: associationsOfAnOrder
   });
 };
 
@@ -62,7 +62,7 @@ const findAllByUserId = (userId) => {
   return Orders.findAll({
     attributes: ["id", "description", "createdAt", "updatedAt"],
     where: { userId },
-    include: [ProductsJoinOrderDetails]
+    include: [associationsOfAnOrder]
   });
 };
 
@@ -70,7 +70,7 @@ const findOneById = (id) => {
   return Orders.findOne({
     attributes: ["id", "description", "createdAt", "updatedAt"],
     where: { id },
-    include: ProductsJoinOrderDetails
+    include: associationsOfAnOrder
   });
 };
 
@@ -78,7 +78,7 @@ const findOneByIdAndUserId = (id, userId) => {
   return Orders.findOne({
     attributes: ["id", "description", "createdAt", "updatedAt"],
     where: { id, userId },
-    include: ProductsJoinOrderDetails
+    include: associationsOfAnOrder
   });
 };
 
