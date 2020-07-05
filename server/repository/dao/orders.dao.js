@@ -62,7 +62,7 @@ const findAllByUserId = (userId) => {
   return Orders.findAll({
     attributes: ["id", "description", "createdAt", "updatedAt"],
     where: { userId },
-    include: [associationsOfAnOrder]
+    include: associationsOfAnOrder
   });
 };
 
