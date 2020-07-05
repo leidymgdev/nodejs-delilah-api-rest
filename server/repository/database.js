@@ -5,7 +5,8 @@ const {
   DB_USERNAME,
   DB_PASSWORD,
   DB_HOST,
-  DB_DIALECT
+  DB_DIALECT,
+  TIME_ZONE,
 } = require("../config");
 
 const database = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
@@ -14,16 +15,16 @@ const database = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
   dialectOptions: {
     useUTC: false, // For reading from database (timezone)
     dateStrings: true,
-    typeCast: true
+    typeCast: true,
   },
   pool: {
     max: 5,
-    min: 1,
+    min: 0,
     acquire: 30000,
-    idle: 10000
+    idle: 10000,
   },
   logging: false,
-  timezone: "-05:00" // For writing to database
+  timezone: TIME_ZONE, // For writing to database
 });
 
 module.exports = database;
@@ -47,30 +48,30 @@ Orders.belongsTo(Users);
 
 // Orders and Statuses
 Statuses.hasMany(Orders, {
-  foreignKey: { allowNull: false }
+  foreignKey: { allowNull: false },
 });
 Orders.belongsTo(Statuses, {
-  foreignKey: { allowNull: false, defaultValue: 1 }
+  foreignKey: { allowNull: false, defaultValue: 1 },
 });
 
 // Orders and Payment Methods
 PaymentMethods.hasMany(Orders, {
-  foreignKey: { allowNull: false, name: "paymentMethodId" }
+  foreignKey: { allowNull: false, name: "paymentMethodId" },
 });
 Orders.belongsTo(PaymentMethods, {
-  foreignKey: { allowNull: false, defaultValue: 1 }
+  foreignKey: { allowNull: false, defaultValue: 1 },
 });
 
 // Products and Orders
 Orders.belongsToMany(Products, {
   through: OrderDetails,
   as: "products",
-  foreignKey: "orderId",
-  otherKey: "productId"
+  foreignKey: { name: "orderId", allowNull: false },
+  otherKey: { name: "productId", allowNull: false },
 });
 Products.belongsToMany(Orders, {
   through: OrderDetails,
   as: "orders",
-  foreignKey: "productId",
-  otherKey: "orderId"
+  foreignKey: { name: "productId", allowNull: false },
+  otherKey: { name: "orderId", allowNull: false },
 });

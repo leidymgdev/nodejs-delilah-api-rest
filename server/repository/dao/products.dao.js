@@ -13,7 +13,7 @@ const findOneById = (id) => {
 };
 
 const update = (id, body) => {
-  return Products.update(body, { where: { id } });
+  return Products.update(body, { where: { id } }).then(() => findOneById(id));
 };
 
 const remove = (id) => {
@@ -25,5 +25,5 @@ module.exports = {
   findAll,
   findOneById,
   update,
-  remove
+  remove,
 };

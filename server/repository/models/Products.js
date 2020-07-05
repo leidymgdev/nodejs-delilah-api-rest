@@ -5,26 +5,26 @@ const Products = database.define("products", {
   id: {
     type: Sequelize.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
   },
-  name: {
+  description: {
     type: Sequelize.STRING,
     require: true,
     allowNull: false,
-    validate: { notEmpty: true }
+    validate: { notEmpty: true },
   },
   price: {
     type: Sequelize.DECIMAL,
     require: true,
     allowNull: false,
-    validate: { notEmpty: true }
+    validate: { notEmpty: true },
   },
   image: {
     type: Sequelize.STRING,
     require: true,
     allowNull: true,
-    validate: { notEmpty: true }
-  }
+    validate: { notEmpty: true },
+  },
 });
 
 module.exports = Products;

@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(
   express.urlencoded({
-    extended: true
+    extended: true,
   })
 );
 app.use(cors());
@@ -24,7 +24,7 @@ app.listen(PORT, () => {
   // Syncronize database for creating the models if not exits
   database
     .sync({
-      force: false
+      force: false,
     })
     .then(() => {
       console.log("Database is synced.");
