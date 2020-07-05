@@ -2,10 +2,10 @@ const OrdersDao = require("../repository/dao/orders.dao");
 const OrderDetailsDao = require("../repository/dao/orderDetails.dao");
 const ProductsDao = require("../repository/dao/products.dao");
 
-const { ADMIN_USER_ID } = require("../config");
+const { ADMIN_ROLE_ID } = require("../config");
 
 const {
-  STATUS_CODE: { BAD_REQUEST },
+  STATUS_CODE: { BAD_REQUEST, NOT_FOUND },
   GENERAL_MESSAGES: { RESOURCE_DOES_NOT_EXIST },
 } = require("../config/constants/index");
 
@@ -66,21 +66,30 @@ const createOrderDetail = async (orderId, products) => {
   };
 };
 
-const read = async (req, res) => {
+/**
+ * Read orders:
+ * -> All:              For Administrator Role
+ * -> All by user id:   For Client Role
+ * @param {*} req
+ * @param {*} res
+ * @returns {[]}        Orders array
+ */
+const readAll = async (req, res) => {
   try {
-    // Get all orders
-    let orders = await OrdersDao.findAll();
+    const { roleId, userId } = req.body;
+    let orders = null;
+
+    if (roleId === ADMIN_ROLE_ID) {
+      orders = await OrdersDao.findAll();
+    } else {
+      // Client
+      orders = await OrdersDao.findAllByUserId(userId);
+    }
 
     // Calcule total for each order
-    orders = orders.map((item) => {
-      const total = item.products.reduce((accumulator, currentValue) => {
-        const value = currentValue.price * currentValue.orderDetails.quantity;
-        return accumulator + value;
-      }, 0);
-      return {
-        ...item.dataValues,
-        total,
-      };
+    orders = orders.map((order) => {
+      const total = calculateTotal(order);
+      return { ...order.dataValues, total };
     });
 
     return res.json(orders);
@@ -89,17 +98,72 @@ const read = async (req, res) => {
   }
 };
 
-const update = async (req, res) => {
+/**
+ * Read orders by id order:
+ * -> By id order:                For Administrator Role
+ * -> By id order and id user:    For Client Role
+ * @param {*} req
+ * @param {*} res
+ * @returns {object}              Order Object
+ */
+const readById = async (req, res) => {
   try {
-    return null;
+    const { id } = req.params;
+    const { roleId, userId } = req.body;
+
+    let order = null;
+
+    if (roleId === ADMIN_ROLE_ID) {
+      order = await OrdersDao.findOneById(id);
+    } else {
+      // Client
+      order = await OrdersDao.findOneByIdAndUserId(id, userId);
+    }
+
+    // Calcule order total
+    const total = calculateTotal(order);
+
+    return res.json({ ...order.dataValues, total });
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });
   }
 };
 
-const remove = async (req, res) => {
+/**
+ * Calculate total for one order
+ * @param {*} order with products
+ * @returns order total
+ */
+const calculateTotal = (order) => {
+  return order.products.reduce((accumulator, product) => {
+    const {
+      price,
+      orderDetails: { quantity },
+    } = product;
+    const value = price * quantity;
+    return accumulator + value;
+  }, 0);
+};
+
+/**
+ * Update order statuses.
+ * This one is also for "removing" an order (change state for cancelled).
+ * @param {*} req
+ * @param {*} res
+ * @returns {object} order object with status updated
+ */
+const updateStatus = async (req, res) => {
   try {
-    return null;
+    const { id } = req.params;
+    const { statusId } = req.body;
+
+    let order = await OrdersDao.findOneById(id);
+    if (!order)
+      return res.status(NOT_FOUND).json({ error: RESOURCE_DOES_NOT_EXIST });
+
+    const updatedStatus = await OrdersDao.updateStatus(id, statusId);
+
+    res.json(updatedStatus);
   } catch (error) {
     res.status(BAD_REQUEST).json({ error: error.message });
   }
@@ -107,7 +171,7 @@ const remove = async (req, res) => {
 
 module.exports = {
   create,
-  read,
-  update,
-  remove,
+  readAll,
+  readById,
+  updateStatus,
 };

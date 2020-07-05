@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const {
   validateToken,
-  validateAdminPermissions
+  validateAdminPermissions,
 } = require("../middlewares/users.middleware");
 const controller = require("../controller/orders.controller");
 
@@ -10,19 +10,19 @@ router.post("/", validateToken, (req, res) => {
 });
 
 router.get("/", validateToken, (req, res) => {
-  controller.read(req, res);
+  controller.readAll(req, res);
 });
 
 router.get("/:id", validateToken, (req, res) => {
-  controller.read(req, res);
+  controller.readById(req, res);
 });
 
 router.put("/:id", validateToken, validateAdminPermissions, (req, res) => {
-  controller.update(req, res);
+  controller.updateStatus(req, res);
 });
 
-router.delete(":id", validateToken, validateAdminPermissions, (req, res) => {
-  controller.delete(req, res);
+router.delete("/:id", validateToken, validateAdminPermissions, (req, res) => {
+  controller.remove(req, res);
 });
 
 module.exports = router;

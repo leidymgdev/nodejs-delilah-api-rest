@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 const Joi = require("@hapi/joi");
 
-const { SECRET_TOKEN, ADMIN_USER_ID } = require("../config");
+const { SECRET_TOKEN, ADMIN_ROLE_ID } = require("../config");
 
 const {
   STATUS_CODE: { BAD_REQUEST, UNAUTHORIZED, FORBIDDEN },
-  GENERAL_MESSAGES: { BAD_CREDENTIALS, ACCESS_DENIED, TOKEN_EXPIRED }
+  GENERAL_MESSAGES: { BAD_CREDENTIALS, ACCESS_DENIED, TOKEN_EXPIRED },
 } = require("../config/constants/index");
 
 const validateRequestCreate = (req, res, next) => {
@@ -17,7 +17,7 @@ const validateRequestCreate = (req, res, next) => {
       fullname: Joi.string().min(6).max(200).required(),
       cellphone: Joi.string().min(7).max(20).required(),
       shippingAddress: Joi.string().min(6).max(200).required(),
-      roleId: Joi.number().integer().min(1).max(2).required()
+      roleId: Joi.number().integer().min(1).max(2).required(),
     });
 
     const validate = schema.validate(req.body);
@@ -59,7 +59,7 @@ const validateToken = async (req, res, next) => {
 
 const validateAdminPermissions = (req, res, next) => {
   try {
-    if (req.body.roleId !== ADMIN_USER_ID)
+    if (req.body.roleId !== ADMIN_ROLE_ID)
       return res.status(FORBIDDEN).json({ error: ACCESS_DENIED });
     next();
   } catch (error) {
@@ -71,5 +71,5 @@ module.exports = {
   validateRequestCreate,
   validateRequestLogin,
   validateToken,
-  validateAdminPermissions
+  validateAdminPermissions,
 };

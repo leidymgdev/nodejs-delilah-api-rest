@@ -4,8 +4,8 @@ const Users = require("../models/Users");
 const findoneByEmailOrUsername = (body) => {
   return Users.findOne({
     where: {
-      [Op.or]: [{ email: body.email }, { username: body.username }]
-    }
+      [Op.or]: [{ email: body.email }, { username: body.username }],
+    },
   })
     .then((result) => result)
     .catch((err) => ({ error: `>> Error while finding User: ${err}` }));
@@ -19,5 +19,5 @@ const create = (body) => {
 
 module.exports = {
   findoneByEmailOrUsername,
-  create
+  create,
 };
