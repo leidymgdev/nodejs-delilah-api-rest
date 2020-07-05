@@ -4,6 +4,13 @@ const {
   STATUS_CODE: { BAD_REQUEST }
 } = require("../config/constants/index");
 
+/**
+ * Validate all information of a product.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns Goes to the next middleware / enter to the endpoint or return an error if doesn't pass the validation.
+ */
 const validateRequest = (req, res, next) => {
   try {
     const schema = Joi.object({

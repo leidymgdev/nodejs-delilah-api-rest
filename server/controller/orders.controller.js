@@ -9,16 +9,23 @@ const {
   GENERAL_MESSAGES: { RESOURCE_DOES_NOT_EXIST, ID_STATUS_RESOURCE_REQUIRED }
 } = require("../config/constants/index");
 
+/**
+ * Create an order and its order details.
+ * @param {*} req
+ * @param {*} res
+ */
 const create = async (req, res) => {
   try {
     // Create and save the order
     const savedOrder = await OrdersDao.create(req.body);
 
+    // Create and save the order detail
     const savedOrderDetails = await createOrderDetail(
       savedOrder.id,
       req.body.products
     );
 
+    // Get the description of an order and update it.
     const { description, success, error } = savedOrderDetails;
     if (description) await OrdersDao.update(savedOrder.id, { description });
 
@@ -29,6 +36,15 @@ const create = async (req, res) => {
   }
 };
 
+/**
+ * Create orders details from an order.
+ * @param {*} orderId
+ * @param {*} products
+ * @returns {description, success, error}
+ * description -> Description of an order.
+ * success -> Details of successfully saved orders.
+ * error -> Details of failed orders.
+ */
 const createOrderDetail = async (orderId, products) => {
   let description = "";
   let success = new Array();

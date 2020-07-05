@@ -20,6 +20,7 @@ router.get("/:id", validateToken, (req, res) => {
   controller.readById(req, res);
 });
 
+/* This endpoint only update the order status */
 router.put("/:id", validateToken, validateAdminPermissions, (req, res) => {
   controller.updateStatus(req, res);
 });

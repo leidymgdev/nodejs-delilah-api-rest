@@ -26,6 +26,7 @@ const read = async (req, res) => {
 const update = async (req, res) => {
   try {
     const { id } = req.params;
+
     let product = await ProductsDao.findOneById(id);
     if (!product)
       return res.status(NOT_FOUND).json({ error: RESOURCE_DOES_NOT_EXIST });

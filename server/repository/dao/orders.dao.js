@@ -54,10 +54,6 @@ const updateStatus = (id, statusId) => {
   );
 };
 
-const remove = (id) => {
-  return Orders.destroy({ where: { id } });
-};
-
 module.exports = {
   create,
   findAll,
@@ -65,6 +61,5 @@ module.exports = {
   findOneById,
   findOneByIdAndUserId,
   update,
-  updateStatus,
-  remove
+  updateStatus
 };

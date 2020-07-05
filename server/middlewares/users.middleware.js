@@ -8,6 +8,13 @@ const {
   GENERAL_MESSAGES: { BAD_CREDENTIALS, ACCESS_DENIED, TOKEN_EXPIRED }
 } = require("../config/constants/index");
 
+/**
+ * Validate all information of an user.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns Goes to the next middleware / enter to the endpoint or return an error if doesn't pass the validation.
+ */
 const validateRequestCreate = (req, res, next) => {
   try {
     const schema = Joi.object({
@@ -30,6 +37,13 @@ const validateRequestCreate = (req, res, next) => {
   }
 };
 
+/**
+ * Validate information from login user.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns Goes to the next middleware / enter to the endpoint or return an error if doesn't pass the validation.
+ */
 const validateRequestLogin = (req, res, next) => {
   try {
     const { email, username, password } = req.body;
@@ -41,6 +55,14 @@ const validateRequestLogin = (req, res, next) => {
   }
 };
 
+/**
+ * Validate if the request has a auth-token key with its value in the header and the expiration of it.
+ * If the token pass the validation catch de userId and RoleId that is contained in the same token. (It is used for others middlewares and validations).
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns Goes to the next middleware / enter to the endpoint or return an error if doesn't pass the validation.
+ */
 const validateToken = async (req, res, next) => {
   try {
     const token = req.header("auth-token");
@@ -57,6 +79,14 @@ const validateToken = async (req, res, next) => {
   }
 };
 
+/**
+ * Validate if the user has permissions to enter to the endpoint.
+ * The user can enter if has an administrator role.
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @returns Goes to the next middleware / enter to the endpoint or return an error if doesn't pass the validation.
+ */
 const validateAdminPermissions = (req, res, next) => {
   try {
     if (req.body.roleId !== ADMIN_ROLE_ID)

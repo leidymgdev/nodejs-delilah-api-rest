@@ -10,6 +10,14 @@ const {
   GENERAL_MESSAGES: { RESOURCE_ALREADY_EXISTS, BAD_CREDENTIALS }
 } = require("../config/constants/index");
 
+/**
+ * Create an user if username or email don't exist yet.
+ * @param {*} req
+ * @param {*} res
+ * @returns {result, error}
+ * Result -> If user has been created successfully.
+ * Error -> If there was an error creating user.
+ */
 const create = async (req, res) => {
   try {
     const { password } = req.body;
@@ -27,6 +35,14 @@ const create = async (req, res) => {
   }
 };
 
+/**
+ * User login. User can login with email or username, and a password.
+ * @param {*} req : Email or username, and password.
+ * @param {*} res
+ * @returns {token, error}
+ * token -> If login is succesfully.
+ * error -> If login failure
+ */
 const login = async (req, res) => {
   try {
     const { password } = req.body;
