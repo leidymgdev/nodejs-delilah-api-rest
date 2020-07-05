@@ -1,7 +1,7 @@
 const Joi = require("@hapi/joi");
 
 const {
-  STATUS_CODE: { BAD_REQUEST }
+  STATUS_CODE: { BAD_REQUEST_CODE }
 } = require("../config/constants/index");
 
 /**
@@ -21,10 +21,12 @@ const validateRequest = (req, res, next) => {
     const validate = schema.validate(req.body);
 
     if (validate.error)
-      return res.status(BAD_REQUEST).json({ error: validate.error.message });
+      return res
+        .status(BAD_REQUEST_CODE)
+        .json({ error: validate.error.message });
     next();
   } catch (error) {
-    res.status(BAD_REQUEST).json({ error: error.message });
+    res.status(BAD_REQUEST_CODE).json({ error: error.message });
   }
 };
 

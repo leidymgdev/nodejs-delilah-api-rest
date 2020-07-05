@@ -5,8 +5,12 @@ const ProductsDao = require("../repository/dao/products.dao");
 const { ADMIN_ROLE_ID } = require("../config");
 
 const {
-  STATUS_CODE: { BAD_REQUEST, NOT_FOUND },
-  GENERAL_MESSAGES: { RESOURCE_DOES_NOT_EXIST, ID_STATUS_RESOURCE_REQUIRED }
+  STATUS_CODE: { BAD_REQUEST_CODE, NOT_FOUND_CODE },
+  GENERAL_MESSAGES: {
+    RESOURCE_DOES_NOT_EXIST,
+    ID_STATUS_RESOURCE_REQUIRED,
+    BAD_REQUEST
+  }
 } = require("../config/constants/index");
 
 /**
@@ -16,6 +20,15 @@ const {
  */
 const create = async (req, res) => {
   try {
+    // Validate the existence of the products in the order detail before create the order and its order detail.
+    const validatedProducts = await validateProductsOrderDetail(
+      req.body.products
+    );
+    if (validatedProducts && validatedProducts.error)
+      return res
+        .status(BAD_REQUEST_CODE)
+        .json({ error: BAD_REQUEST, detailError: validatedProducts.error });
+
     // Create and save the order
     const savedOrder = await OrdersDao.create(req.body);
 
@@ -26,13 +39,46 @@ const create = async (req, res) => {
     );
 
     // Get the description of an order and update it.
-    const { description, success, error } = savedOrderDetails;
+    const { description } = savedOrderDetails;
     if (description) await OrdersDao.update(savedOrder.id, { description });
 
     // If everyting goes well, respond with the order
-    res.json({ ...savedOrder.dataValues, success, error });
+    res.json(savedOrder);
   } catch (error) {
-    res.status(BAD_REQUEST).json({ error: error.message });
+    res.status(BAD_REQUEST_CODE).json({ error: error.message });
+  }
+};
+
+/**
+ * Validate if all the products to be inserted in the order detail exist.
+ *  If there is a product that does not exist, it does not insert anything and returns an error.
+ * @param {*} products
+ * @returns {null, error}
+ * null -> If doesn't have an error.
+ * error -> If there is al least one error.
+ */
+const validateProductsOrderDetail = async (products) => {
+  // Create an array of products id from products
+  const arrayIdsProductsRequest = products.map((item) => item.id);
+
+  // With arrayIdsProductsRequest find all products and transform to an array of products id
+  const arrayIdsProductsDB = (
+    await ProductsDao.findAllByIds(arrayIdsProductsRequest)
+  ).map((item) => item.id);
+
+  /* Compare arrayIdsProductsRequest with arrayIdsProductsDB
+     and get the difference bewteem them and transform de difference in an array of products id with a message error. */
+  if (arrayIdsProductsRequest.length != arrayIdsProductsDB.length) {
+    let detailError = arrayIdsProductsRequest
+      .filter((item) => !arrayIdsProductsDB.includes(item))
+      .map((item) => {
+        return {
+          id: item,
+          message: "Resource doesn't exist."
+        };
+      });
+
+    return { error: detailError };
   }
 };
 
@@ -47,38 +93,27 @@ const create = async (req, res) => {
  */
 const createOrderDetail = async (orderId, products) => {
   let description = "";
-  let success = new Array();
-  let error = new Array();
 
   // Loop through all the items in req.products
   for (const item of products) {
     // Search for the product with the givenId and make sure it exists. If it doesn't, respond with status 400.
     const product = await ProductsDao.findOneById(item.id);
-    if (!product) {
-      error.push({
-        message: RESOURCE_DOES_NOT_EXIST,
-        id: item.id
-      });
-    } else {
-      description += `${item.quantity} x ${product.name} `;
 
-      // Create a dictionary with which to create the Order Detail
-      const orderDetail = {
-        orderId,
-        productId: item.id,
-        quantity: item.quantity
-      };
+    description += `${item.quantity} x ${product.name} `;
 
-      // Create and save a Order Detail
-      let savedOrderDetail = await OrderDetailsDao.create(orderDetail);
-      success.push(savedOrderDetail);
-    }
+    // Create a dictionary with which to create the Order Detail
+    const orderDetail = {
+      orderId,
+      productId: item.id,
+      quantity: item.quantity
+    };
+
+    // Create and save a Order Detail
+    await OrderDetailsDao.create(orderDetail);
   }
 
   return {
-    description,
-    success,
-    error
+    description
   };
 };
 
@@ -110,7 +145,7 @@ const readAll = async (req, res) => {
 
     return res.json(orders);
   } catch (error) {
-    res.status(BAD_REQUEST).json({ error: error.message });
+    res.status(BAD_REQUEST_CODE).json({ error: error.message });
   }
 };
 
@@ -137,11 +172,14 @@ const readById = async (req, res) => {
     }
 
     // Calcule order total
-    const total = calculateTotal(order);
+    if (order) {
+      const total = calculateTotal(order);
+      order = { ...order.dataValues, total };
+    }
 
-    return res.json({ ...order.dataValues, total });
+    return res.json(order);
   } catch (error) {
-    res.status(BAD_REQUEST).json({ error: error.message });
+    res.status(BAD_REQUEST_CODE).json({ error: error.message });
   }
 };
 
@@ -175,18 +213,20 @@ const updateStatus = async (req, res) => {
 
     if (!statusId)
       return res
-        .status(BAD_REQUEST)
+        .status(BAD_REQUEST_CODE)
         .json({ error: ID_STATUS_RESOURCE_REQUIRED });
 
     let order = await OrdersDao.findOneById(id);
     if (!order)
-      return res.status(NOT_FOUND).json({ error: RESOURCE_DOES_NOT_EXIST });
+      return res
+        .status(NOT_FOUND_CODE)
+        .json({ error: RESOURCE_DOES_NOT_EXIST });
 
     const updatedStatus = await OrdersDao.updateStatus(id, statusId);
 
     res.json(updatedStatus);
   } catch (error) {
-    res.status(BAD_REQUEST).json({ error: error.message });
+    res.status(BAD_REQUEST_CODE).json({ error: error.message });
   }
 };
 

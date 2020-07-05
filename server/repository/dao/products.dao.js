@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const Products = require("../models/Products");
 
 const create = (body) => {
@@ -6,6 +7,12 @@ const create = (body) => {
 
 const findAll = () => {
   return Products.findAll();
+};
+
+const findAllByIds = (arrayIdsProducts) => {
+  return Products.findAll({
+    where: { id: { [Op.in]: arrayIdsProducts } }
+  });
 };
 
 const findOneById = (id) => {
@@ -23,6 +30,7 @@ const remove = (id) => {
 module.exports = {
   create,
   findAll,
+  findAllByIds,
   findOneById,
   update,
   remove

@@ -4,7 +4,7 @@ const Joi = require("@hapi/joi");
 const { SECRET_TOKEN, ADMIN_ROLE_ID } = require("../config");
 
 const {
-  STATUS_CODE: { BAD_REQUEST, UNAUTHORIZED, FORBIDDEN },
+  STATUS_CODE: { BAD_REQUEST_CODE, UNAUTHORIZED_CODE, FORBIDDEN_CODE },
   GENERAL_MESSAGES: { BAD_CREDENTIALS, ACCESS_DENIED, TOKEN_EXPIRED }
 } = require("../config/constants/index");
 
@@ -30,10 +30,12 @@ const validateRequestCreate = (req, res, next) => {
     const validate = schema.validate(req.body);
 
     if (validate.error)
-      return res.status(BAD_REQUEST).json({ error: validate.error.message });
+      return res
+        .status(BAD_REQUEST_CODE)
+        .json({ error: validate.error.message });
     next();
   } catch (error) {
-    res.status(BAD_REQUEST).json({ error: error.message });
+    res.status(BAD_REQUEST_CODE).json({ error: error.message });
   }
 };
 
@@ -48,10 +50,10 @@ const validateRequestLogin = (req, res, next) => {
   try {
     const { email, username, password } = req.body;
     if ((!email || !username) && password)
-      return res.status(BAD_REQUEST).json({ error: BAD_CREDENTIALS });
+      return res.status(BAD_REQUEST_CODE).json({ error: BAD_CREDENTIALS });
     next();
   } catch (error) {
-    res.status(BAD_REQUEST).json({ error: error.message });
+    res.status(BAD_REQUEST_CODE).json({ error: error.message });
   }
 };
 
@@ -66,16 +68,18 @@ const validateRequestLogin = (req, res, next) => {
 const validateToken = async (req, res, next) => {
   try {
     const token = req.header("auth-token");
-    if (!token) return res.status(UNAUTHORIZED).json({ error: ACCESS_DENIED });
+    if (!token)
+      return res.status(UNAUTHORIZED_CODE).json({ error: ACCESS_DENIED });
 
     await jwt.verify(token, SECRET_TOKEN, (error, data) => {
-      if (error) return res.status(UNAUTHORIZED).json({ error: TOKEN_EXPIRED });
+      if (error)
+        return res.status(UNAUTHORIZED_CODE).json({ error: TOKEN_EXPIRED });
       req.body.userId = data.id;
       req.body.roleId = data.roleId;
       next();
     });
   } catch (error) {
-    res.status(BAD_REQUEST).json({ error: error.message });
+    res.status(BAD_REQUEST_CODE).json({ error: error.message });
   }
 };
 
@@ -90,10 +94,10 @@ const validateToken = async (req, res, next) => {
 const validateAdminPermissions = (req, res, next) => {
   try {
     if (req.body.roleId !== ADMIN_ROLE_ID)
-      return res.status(FORBIDDEN).json({ error: ACCESS_DENIED });
+      return res.status(FORBIDDEN_CODE).json({ error: ACCESS_DENIED });
     next();
   } catch (error) {
-    res.status(BAD_REQUEST).json({ error: error.message });
+    res.status(BAD_REQUEST_CODE).json({ error: error.message });
   }
 };
 
