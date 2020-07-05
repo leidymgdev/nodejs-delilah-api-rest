@@ -1,6 +1,9 @@
 const Orders = require("../models/Orders");
 const OrderDetails = require("../models/OrderDetails");
 const Products = require("../models/Products");
+const Users = require("../models/Users");
+const PaymentMethods = require("../models/PaymentMethods");
+const Statuses = require("../models/Statuses");
 
 const ProductsJoinOrderDetails = [
   {
@@ -15,6 +18,32 @@ const ProductsJoinOrderDetails = [
       as: "orderDetails",
       attributes: ["quantity"]
     }
+  },
+  {
+    model: Users,
+    as: "user",
+    required: false,
+    attributes: [
+      "id",
+      "email",
+      "username",
+      "fullname",
+      "cellphone",
+      "shippingAddress",
+      "roleId"
+    ]
+  },
+  {
+    model: Statuses,
+    as: "status",
+    required: false,
+    attributes: ["id", "description"]
+  },
+  {
+    model: PaymentMethods,
+    as: "paymentMethod",
+    required: false,
+    attributes: ["id", "description"]
   }
 ];
 
@@ -23,22 +52,31 @@ const create = (body) => {
 };
 
 const findAll = () => {
-  return Orders.findAll({ include: ProductsJoinOrderDetails });
+  return Orders.findAll({
+    attributes: ["id", "description", "createdAt", "updatedAt"],
+    include: ProductsJoinOrderDetails
+  });
 };
 
 const findAllByUserId = (userId) => {
   return Orders.findAll({
+    attributes: ["id", "description", "createdAt", "updatedAt"],
     where: { userId },
     include: [ProductsJoinOrderDetails]
   });
 };
 
 const findOneById = (id) => {
-  return Orders.findOne({ where: { id }, include: ProductsJoinOrderDetails });
+  return Orders.findOne({
+    attributes: ["id", "description", "createdAt", "updatedAt"],
+    where: { id },
+    include: ProductsJoinOrderDetails
+  });
 };
 
 const findOneByIdAndUserId = (id, userId) => {
   return Orders.findOne({
+    attributes: ["id", "description", "createdAt", "updatedAt"],
     where: { id, userId },
     include: ProductsJoinOrderDetails
   });

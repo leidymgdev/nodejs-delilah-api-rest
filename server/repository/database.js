@@ -49,7 +49,8 @@ Orders.belongsTo(Users);
 // Orders and Statuses
 Statuses.hasMany(Orders, { foreignKey: { allowNull: false } });
 Orders.belongsTo(Statuses, {
-  foreignKey: { allowNull: false, defaultValue: 1 }
+  foreignKey: { allowNull: false, defaultValue: 1 },
+  as: "status"
 });
 
 // Orders and Payment Methods

@@ -30,7 +30,7 @@ const create = async (req, res) => {
         .json({ error: BAD_REQUEST, detailError: validatedProducts.error });
 
     // Create and save the order
-    const savedOrder = await OrdersDao.create(req.body);
+    let savedOrder = await OrdersDao.create(req.body);
 
     // Create and save the order detail
     const savedOrderDetails = await createOrderDetail(
@@ -40,7 +40,8 @@ const create = async (req, res) => {
 
     // Get the description of an order and update it.
     const { description } = savedOrderDetails;
-    if (description) await OrdersDao.update(savedOrder.id, { description });
+    if (description)
+      savedOrder = await OrdersDao.update(savedOrder.id, { description });
 
     // If everyting goes well, respond with the order
     res.json(savedOrder);
