@@ -5,6 +5,10 @@ const ordersRouter = require("./orders.route");
 const productsRouter = require("./products.route");
 const usersRouter = require("./users.route");
 
+router.get("/", (req, res) => {
+  res.send("Welcome to Delilah Resto Rest Api.");
+});
+
 router.use("/docs", docsRouter);
 router.use("/orders", ordersRouter);
 router.use("/products", productsRouter);
