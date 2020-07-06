@@ -35,7 +35,7 @@
           "users"
         ],
         "summary": "Create a new user",
-        "description": "Create a new user",
+        "description": "Create an user if username or email don't exist yet. (roleId is an optional parameter. It will be saved with id 1 if the property does not come in the request. Id 2 makes for admin privileges and id 1 is for a normal client). (roleId data are in https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/repository/seeders/data/roles.js)",
         "operationId": "createUser",
         "requestBody": {
           "description": "User object",
@@ -91,7 +91,7 @@
           "users"
         ],
         "summary": "Login user",
-        "description": "Login user",
+        "description": "User can login with email or username, and a password. If login is succesfully generated a token. This endpoint responses a token. This token must be used in the Headers with auth-token key for others endpoints (products and orders).",
         "operationId": "loginUser",
         "requestBody": {
           "description": "User object",
@@ -143,7 +143,7 @@
           "products"
         ],
         "summary": "Create a new product",
-        "description": "Can only be done by administrator users.",
+        "description": "Create a new product. Can only be done by administrator users and you need to send the token in the Headers with auth-token key.",
         "operationId": "createProduct",
         "parameters": [
           {
@@ -199,7 +199,7 @@
           "products"
         ],
         "summary": "Get all products",
-        "description": "Returns all products",
+        "description": "Returns all products. You need to send the token in the Headers with auth-token key.",
         "operationId": "getAllProducts",
         "parameters": [
           {
@@ -241,7 +241,7 @@
           "products"
         ],
         "summary": "Update a product",
-        "description": "Can only be done by administrator users.",
+        "description": "Update a product. Can only be done by administrator users and you need to send the token in the Headers with auth-token key.",
         "operationId": "updateProduct",
         "parameters": [
           {
@@ -292,8 +292,8 @@
         "tags": [
           "products"
         ],
-        "summary": "Deletes a product",
-        "description": "Can only be done by administrator users.",
+        "summary": "Delete a product",
+        "description": "Delete a product. Can only be done by administrator users and you need to send the token in the Headers with auth-token key.",
         "operationId": "deleteProduct",
         "parameters": [
           {
@@ -335,7 +335,7 @@
           "orders"
         ],
         "summary": "Create a new order",
-        "description": "Create a new order",
+        "description": "Create an order and its order details. It validate if all the products to be inserted in the order detail exist. If there is a product that does not exist, it does not insert anything and returns an error. You need to send the token in the Headers with auth-token key. (paymentMethodId data are in https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/repository/seeders/data/paymentMethods.js)",
         "operationId": "createOrder",
         "parameters": [
           {
@@ -391,7 +391,7 @@
           "orders"
         ],
         "summary": "Get all orders",
-        "description": "Get all orders",
+        "description": "Admin can see all orders and normal client only can see their orders. You need to send the token in the Headers with auth-token key.",
         "operationId": "getAllOrders",
         "parameters": [
           {
@@ -432,8 +432,8 @@
         "tags": [
           "orders"
         ],
-        "summary": "Get an order",
-        "description": "Get an order",
+        "summary": "Get an order by id",
+        "description": "Admin can see whatever specific order and normal client only can see an order if its own. You need to send the token in the Headers with auth-token key.",
         "operationId": "getAnOrder",
         "parameters": [
           {
@@ -483,7 +483,7 @@
           "orders"
         ],
         "summary": "Update an order",
-        "description": "Can only be done by administrator users.",
+        "description": "This endpoint only update the order status. This one is also for \"removing\" an order (change state for cancelled). Can only be done by administrator users and you need to send the token in the Headers with auth-token key. (statusId data are in https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/repository/seeders/data/statuses.js)",
         "operationId": "updateOrder",
         "parameters": [
           {
@@ -723,6 +723,10 @@
           },
           "paymentMethod": {
             "$ref": "#/components/schemas/PaymentMethod"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
           },
           "createdAt": {
             "type": "string",

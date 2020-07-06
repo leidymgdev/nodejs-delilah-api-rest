@@ -300,6 +300,8 @@ Admin can see whatever specific order and normal client only can see an order if
 
 http://localhost:8081/api/v1/orders/:id
 
+This endpoint only update the order status. This one is also for "removing" an order (change state for cancelled).
+
 - _You need to send the token in the **Headers** with **auth-token** key_.
 - _You need **admin privileges** via **roleId 2**. This is sent in the token_.
 
