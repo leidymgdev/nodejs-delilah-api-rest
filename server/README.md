@@ -177,7 +177,7 @@ Request body:
 - It will be saved with id 1 if the property does not come in the request.
 - Id **2** makes for **admin privileges** and id **1** is for a **normal client**).
 
-- roleId data are [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/repository/seeders/data/roles.js)
+- **roleId** data are [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/repository/seeders/data/roles.js)
 
 ### POST - Login of user
 
@@ -266,7 +266,7 @@ http://localhost:8081/api/v1/orders
     }
 ```
 
-- paymentMethodId data are [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/repository/seeders/data/paymentMethods.js)
+- **paymentMethodId** data are [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/repository/seeders/data/paymentMethods.js)
 
 ### GET - All orders
 
@@ -297,4 +297,4 @@ http://localhost:8081/api/v1/orders/:id
     }
 ```
 
-- statusId data are [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/repository/seeders/data/statuses.js)
+- **statusId** data are [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/repository/seeders/data/statuses.js)
