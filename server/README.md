@@ -21,7 +21,7 @@ In this API you can allow users to register and login and manage products and or
 
 This README.md will guide you on how to install and use this API.
 
-NOTE: You can also find the specification of the OpenAPI in [Open API Docs](https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/docs/openApi.yaml)
+NOTE: You can find the specification of the OpenAPI in [Open API Docs](https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/docs/openApi.yaml)
 
 ## Installation and initialization
 
@@ -86,7 +86,7 @@ This will install the app in port 8081. You can edit the port in the file [env.v
 
 ## Checking if it's running correctly
 
-Open the [env.variables.json](http://localhost:8081/api/v1/) in the browser.
+Open this [url](http://localhost:8081/api/v1/) in the browser. (If you changed the PORT variable in env.variables.json please change it here too).
 
 You should get a message: "Welcome to Delilah Resto Rest Api."
 
@@ -96,4 +96,139 @@ Use Postman or similar apps to try out the different GET, POST, PUT and DELETE r
 
 You can verify how the methods work in this [Postman collection](https://www.getpostman.com/collections/e97fa9d611c1d04628da)
 
-Or you can [[Run in Postman](https://app.getpostman.com/run-collection/bb3dbfc2335343c607c2)
+Or you can [Run in Postman](https://app.getpostman.com/run-collection/bb3dbfc2335343c607c2)
+
+Also you can find the specification of the OpenAPI in this [url](http://localhost:8081/api/v1/docs/) (If you changed the PORT variable in env.variables.json please change it here too).
+
+## METHODS
+
+Important note: middlewares check user and admin with a token. To have access to resources with admin privileges, you need to be logged in as a registered admin first.
+
+Other important note: Please remember to use JSON for all "body: raw" requests.
+
+## ENDPOINTS
+
+(If you changed the PORT variable in env.variables.json please change it here too).
+
+# For managing users
+
+## POST - Register a user
+
+http://localhost:8081/api/v1/users
+
+Request body:
+
+```js
+    {
+        "email": "myemail@email.com",
+        "password": "mypassword",
+        "username": "myusername",
+        "fullname": "my full name",
+        "cellphone": "1234567890",
+        "shippingAddress": "my shipping address",
+        "roleId": 2
+    }
+```
+
+(roleId is an optional parameter. It will be saved with id 1 if the property does not come in the request.
+Id 2 makes for admin privileges and id 1 is for a normal client.)
+
+## POST - Login of user
+
+http://localhost:8081/api/v1/users/login
+
+```js
+    {
+        "email": "martinezgiraldoleidy@gmail.com",
+        "password": "Intel135",
+        "username": "leidymgdev",
+        "fullname": "Leidy Johanna Martínez Giraldo5",
+        "cellphone": "3185273941",
+        "shippingAddress": "Carrera 6a # 23 - 23",
+        "roleId": 2
+    }
+```
+
+This endpoint responses a token. This token must be used in the others endpoints (products and orders).
+
+```js
+    {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZUlkIjoxLCJpYXQiOjE1OTM5OTk2MzksImV4cCI6MTU5NDE3MjQzOX0.56790l9gC2FQsjH9uIwKWih7xmgRZA1dlVg4PaZKZic"
+    }
+```
+
+# For managing products
+
+## POST - Products
+
+http://localhost:8081/api/v1/products
+
+\_You need admin privileges via roleId 2
+
+```js
+    {
+        "description": "Menu",
+        "price": 10000
+    }
+```
+
+## GET - Products
+
+http://localhost:8081/api/v1/products
+
+## PUT - Products
+
+http://localhost:8081/api/v1/products/:id
+
+\_You need admin privileges via roleId 2
+
+```js
+    {
+        "description": "Menú",
+        "price": 10000
+    }
+```
+
+## DELETE - Products
+
+http://localhost:8081/api/v1/products/:id
+
+\_You need admin privileges via roleId 2
+
+# For managing orders
+
+## POST - Orders
+
+http://localhost:8081/api/v1/orders
+
+```js
+    {
+        "paymentMethodId": 1,
+        "products": [
+            {
+                "id": 1,
+                "quantity": 1
+            }
+        ]
+    }
+```
+
+## GET - All orders
+
+http://localhost:8081/api/v1/orders
+
+## GET - Order by id order
+
+http://localhost:8081/api/v1/orders/:id
+
+## PUT - Orders (change status)
+
+http://localhost:8081/api/v1/orders/:id
+
+\_You need admin privileges via roleId 2
+
+```js
+    {
+        "statusId": 2
+    }
+```

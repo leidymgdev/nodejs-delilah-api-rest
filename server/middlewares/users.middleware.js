@@ -23,8 +23,7 @@ const validateRequestCreate = (req, res, next) => {
       username: Joi.string().min(6).max(30).required(),
       fullname: Joi.string().min(6).max(200).required(),
       cellphone: Joi.string().min(7).max(20).required(),
-      shippingAddress: Joi.string().min(6).max(200).required(),
-      roleId: Joi.number().integer().min(1).max(2).required()
+      shippingAddress: Joi.string().min(6).max(200).required()
     });
 
     const validate = schema.validate(req.body);
