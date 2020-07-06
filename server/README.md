@@ -195,7 +195,7 @@ http://localhost:8081/api/v1/users/login
     }
 ```
 
-This endpoint responses a **token**. This token must be used in the others endpoints (products and orders).
+This endpoint responses a **token**. This token must be used in the Headers with auth-token key for others endpoints (products and orders).
 
 ```js
     {
@@ -204,6 +204,7 @@ This endpoint responses a **token**. This token must be used in the others endpo
 ```
 
 _**Important note:** Example how to send the auth-token token in Postman._
+
 ![example postman headers key auth-token](https://raw.githubusercontent.com/leidymgdev/delilah-api-rest-nodejs/master/server/docs/example_postman_headers_key_auth-token.png)
 
 ## For managing products
