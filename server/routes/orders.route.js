@@ -25,4 +25,8 @@ router.put("/:id", validateToken, validateAdminPermissions, (req, res) => {
   controller.updateStatus(req, res);
 });
 
+router.delete("/:id", validateToken, validateAdminPermissions, (req, res) => {
+  controller.remove(req, res);
+});
+
 module.exports = router;

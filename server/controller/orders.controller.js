@@ -9,6 +9,7 @@ const {
   GENERAL_MESSAGES: {
     RESOURCE_DOES_NOT_EXIST,
     ID_STATUS_RESOURCE_REQUIRED,
+    RESOURCE_REMOVED_SUCCESSFULLY,
     BAD_REQUEST
   }
 } = require("../config/constants/index");
@@ -230,9 +231,32 @@ const updateStatus = async (req, res) => {
   }
 };
 
+const remove = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    let order = await OrdersDao.findOneById(id);
+    if (!order)
+      return res
+        .status(NOT_FOUND_CODE)
+        .json({ error: RESOURCE_DOES_NOT_EXIST });
+
+    // Delete order detail
+    await OrderDetailsDao.remove(id);
+
+    // Delete order
+    await OrdersDao.remove(id);
+
+    res.json({ message: RESOURCE_REMOVED_SUCCESSFULLY });
+  } catch (error) {
+    res.status(BAD_REQUEST_CODE).json({ error: error.message });
+  }
+};
+
 module.exports = {
   create,
   readAll,
   readById,
-  updateStatus
+  updateStatus,
+  remove
 };

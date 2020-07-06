@@ -127,6 +127,7 @@ Ignore the warning message _"Ignoring invalid configuration option passed to Con
 You can check this in the mysql tables.
 
 **Important note:** This information needs to be inserted before testing all endpoints. **This is a master data.**
+And This script can be only executes one time. If you run it more than once you will get the following error: "Error in bulk create seeders SequelizeUniqueConstraintError: Validation error.". (This error is why the inserted records must be unique and not repeat. When trying to reinsert them, you will get that error because they are already inserted yet.)
 
 The master data inserted are [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/tree/master/server/repository/seeders/data).
 
