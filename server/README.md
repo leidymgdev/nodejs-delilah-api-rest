@@ -21,7 +21,7 @@ In this API you can allow users to register and login and manage products and or
 
 This README.md will guide you on how to install and use this API.
 
-NOTE: You can find the specification of the **OpenAPI** in [Open API Docs](https://app.swaggerhub.com/apis/leidymgdev/swagger-delilahresto/1.0.0) or in [this repository](https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/docs/openApi.yaml)
+NOTE: You can find the specification of the **OpenAPI** in [Open API Docs](https://app.swaggerhub.com/apis/leidymgdev/swagger-delilahresto/1.0.0) or in [this repository](https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/docs/openApi.yaml).
 
 ## Installation and initialization
 
@@ -33,7 +33,7 @@ $ git clone https://github.com/leidymgdev/delilah-api-rest-nodejs.git
 
 ## To install the dependencies
 
-Use **npm** or **yarn** to install the dependencies
+Use **npm** or **yarn** to install the dependencies.
 
 ```bash
 $ npm install
@@ -92,8 +92,7 @@ If everything is ok you will get the next messages:
 Ignore the next warning message: _"Ignoring invalid configuration option passed to Connection: useUTC. This is currently a warning, but in future versions of MySQL2, an error will be thrown if you pass an invalid configuration option to a Connection"._ **Actually this is an open issue only for mysql dialect.**
 
 **Important note:** Tables and associations were created after did this.
-
-You can see the model database [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/tree/master/server/docs/db_delilah.png)
+You can see the model database [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/tree/master/server/docs/db_delilah.png).
 
 Execute the next script to insert data in roles, statuses, paymentMethods and users tables.
 
@@ -129,9 +128,9 @@ You should get a message: **"Welcome to Delilah Resto Rest Api."**
 
 Use **Postman** or similar apps to try out the different GET, POST, PUT and DELETE requests.
 
-You can verify how the methods work in this [Postman collection](https://www.getpostman.com/collections/e97fa9d611c1d04628da)
+You can verify how the methods work in this [Postman collection](https://www.getpostman.com/collections/e97fa9d611c1d04628da).
 
-Or you can [Run in Postman](https://app.getpostman.com/run-collection/bb3dbfc2335343c607c2)
+Or you can [Run in Postman](https://app.getpostman.com/run-collection/bb3dbfc2335343c607c2).
 
 Also you can find the specification of the **OpenAPI** in this [url](http://localhost:8081/api/v1/docs/) (If you changed the PORT variable in env.variables.json please change it here too).
 
@@ -168,7 +167,7 @@ Request body:
 (**roleId** is an optional parameter.
 
 - It will be saved with id 1 if the property does not come in the request.
-- Id **2** makes for **admin privileges** and id **1** is for a **normal client**.)
+- Id **2** makes for **admin privileges** and id **1** is for a **normal client**).
 
 ### POST - Login of user
 
@@ -200,8 +199,8 @@ This endpoint responses a **token**. This token must be used in the others endpo
 
 http://localhost:8081/api/v1/products
 
-- _You need to send the token in the **Headers** with **auth-token** key_
-- _You need **admin privileges** via **roleId 2**_
+- _You need to send the token in the **Headers** with **auth-token** key_.
+- _You need **admin privileges** via **roleId 2**_.
 
 ```js
     {
@@ -214,14 +213,14 @@ http://localhost:8081/api/v1/products
 
 http://localhost:8081/api/v1/products
 
-- _You need to send the token in the **Headers** with **auth-token** key_
+- _You need to send the token in the **Headers** with **auth-token** key_.
 
 ### PUT - Products
 
 http://localhost:8081/api/v1/products/:id
 
-- _You need to send the token in the **Headers** with **auth-token** key_
-- _You need **admin privileges** via **roleId 2**_
+- _You need to send the token in the **Headers** with **auth-token** key_.
+- _You need **admin privileges** via **roleId 2**_.
 
 ```js
     {
@@ -234,8 +233,8 @@ http://localhost:8081/api/v1/products/:id
 
 http://localhost:8081/api/v1/products/:id
 
-- _You need to send the token in the **Headers** with **auth-token** key_
-- _You need **admin privileges** via **roleId 2**_
+- _You need to send the token in the **Headers** with **auth-token** key_.
+- _You need **admin privileges** via **roleId 2**_.
 
 ## For managing orders
 
@@ -243,7 +242,7 @@ http://localhost:8081/api/v1/products/:id
 
 http://localhost:8081/api/v1/orders
 
-- _You need to send the token in the **Headers** with **auth-token** key_
+- _You need to send the token in the **Headers** with **auth-token** key_.
 
 ```js
     {
@@ -261,7 +260,7 @@ http://localhost:8081/api/v1/orders
 
 http://localhost:8081/api/v1/orders
 
-- _You need to send the token in the **Headers** with **auth-token** key_
+- _You need to send the token in the **Headers** with **auth-token** key_.
 
 Admin can see all orders and normal client only can see their orders.
 
@@ -269,7 +268,7 @@ Admin can see all orders and normal client only can see their orders.
 
 http://localhost:8081/api/v1/orders/:id
 
-- _You need to send the token in the **Headers** with **auth-token** key_
+- _You need to send the token in the **Headers** with **auth-token** key_.
 
 Admin can see whatever specific order and normal client only can see an order if its own.
 
@@ -277,8 +276,8 @@ Admin can see whatever specific order and normal client only can see an order if
 
 http://localhost:8081/api/v1/orders/:id
 
-- _You need to send the token in the **Headers** with **auth-token** key_
-- _You need **admin privileges** via **roleId 2**_
+- _You need to send the token in the **Headers** with **auth-token** key_.
+- _You need **admin privileges** via **roleId 2**_.
 
 ```js
     {
