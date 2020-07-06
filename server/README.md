@@ -301,7 +301,7 @@ Admin can see whatever specific order and normal client only can see an order if
 
 http://localhost:8081/api/v1/orders/:id
 
-This endpoint only update the order status. This one is also for "removing" an order (change state for cancelled).
+This endpoint only update the order status.
 
 - _You need to send the token in the **Headers** with **auth-token** key_.
 - _You need **admin privileges** via **roleId 2**. This is sent in the token_.
@@ -313,3 +313,10 @@ This endpoint only update the order status. This one is also for "removing" an o
 ```
 
 - **statusId** data are [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/repository/seeders/data/statuses.js)
+
+### DELETE - Orders
+
+http://localhost:8081/api/v1/orders/:id
+
+- _You need to send the token in the **Headers** with **auth-token** key_.
+- _You need **admin privileges** via **roleId 2**. This is sent in the token_.
