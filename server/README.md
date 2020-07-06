@@ -114,6 +114,8 @@ If everything is ok you will get the next messages:
 
 Ignore the warning message _"Ignoring invalid configuration option passed to Connection.."_ again.
 
+You can check this in the mysql tables.
+
 **Important note:** This information needs to be inserted before testing all endpoints. **This is a master data.**
 
 The master data inserted are [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/tree/master/server/repository/seeders/data).
