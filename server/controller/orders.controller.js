@@ -202,7 +202,6 @@ const calculateTotal = (order) => {
 
 /**
  * Update order statuses.
- * This one is also for "removing" an order (change state for cancelled).
  * @param {*} req
  * @param {*} res
  * @returns {object} order object with status updated

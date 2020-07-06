@@ -147,9 +147,11 @@ You should get a message: **"Welcome to Delilah Resto Rest Api."**
 
 Use **Postman** or similar apps to try out the different GET, POST, PUT and DELETE requests.
 
-**You can [Run in Postman](https://app.getpostman.com/run-collection/c16f78818a7c43da2bf3). (For adding the collection in your windows postman. This contains all endpoints and data body to test/run each endpoint). This will save you work. So go ahead!**
+**You can [Run in Postman](https://app.getpostman.com/run-collection/c16f78818a7c43da2bf3). (For adding the collection in your windows postman. This contains all endpoints and data body to test/run each endpoint). This will save you work for testing. So go ahead!**
 
-Also you can find the specification of the **OpenAPI** in this [url](http://localhost:8081/api/v1/docs/). This is and endpoint in the api rest for seeing the OpenApi docs. (If you changed the PORT variable in env.variables.json please change it here too).
+Also you can find the specification of the **OpenAPI** in this [url](http://localhost:8081/api/v1/docs/). This is and endpoint in the api rest for seeing the OpenApi docs.  
+**Important note** You can test all endpoints here with swagger. Only you need to have to started the server. This will save you work for testing too. So go ahead!
+_(If you changed the PORT variable in env.variables.json please change it here too)._
 
 ## METHODS
 

@@ -36,13 +36,6 @@ paths:
       responses:
         200:
           description: successful login
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/User"
         400:
           description: Bad request.
           content: {}
@@ -73,13 +66,6 @@ paths:
       responses:
         200:
           description: successful login
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/User"
         400:
           description: Bad request.
           content: {}
@@ -113,13 +99,6 @@ paths:
       responses:
         200:
           description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Product"
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/Product"
         400:
           description: Bad request.
           content: {}
@@ -139,13 +118,6 @@ paths:
       responses:
         200:
           description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Product"
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/Product"
         400:
           description: Bad request.
           content: {}
@@ -169,16 +141,19 @@ paths:
           schema:
             type: integer
             format: int64
+      requestBody:
+        description: Product object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Product"
+        required: true
       responses:
         200:
           description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Product"
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/Product"
         400:
           description: Bad request.
           content: {}
@@ -238,13 +213,6 @@ paths:
       responses:
         200:
           description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Order"
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/Order"
         400:
           description: Bad request.
           content: {}
@@ -264,13 +232,6 @@ paths:
       responses:
         200:
           description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Order"
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/Order"
         400:
           description: Bad request.
           content: {}
@@ -298,13 +259,6 @@ paths:
       responses:
         200:
           description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Order"
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/Order"
         400:
           description: Bad request.
           content: {}
@@ -313,7 +267,7 @@ paths:
       tags:
         - orders
       summary: Update an order
-      description: This endpoint only update the order status. This one is also for "removing" an order (change state for cancelled). Can only be done by administrator users and you need to send the token in the Headers with auth-token key. (statusId data are in https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/repository/seeders/data/statuses.js)
+      description: This endpoint only update the order status. Can only be done by administrator users and you need to send the token in the Headers with auth-token key. (statusId data are in https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/repository/seeders/data/statuses.js)
       operationId: updateOrder
       parameters:
         - name: auth-token
@@ -327,81 +281,83 @@ paths:
           schema:
             type: integer
             format: int64
+      requestBody:
+        description: Order object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderStatus"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/OrderStatus"
+        required: true
       responses:
         200:
           description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Order"
-            application/xml:
-              schema:
-                $ref: "#/components/schemas/Order"
         400:
           description: Bad request.
           content: {}
         404:
           description: Resource does not exist.
           content: {}
+    delete:
+      tags:
+        - orders
+      summary: Delete an order and its order detail
+      description: Delete an order and its order detail. Can only be done by administrator users and you need to send the token in the Headers with auth-token key.
+      operationId: deleteOrder
+      parameters:
+        - name: auth-token
+          in: header
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Order id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: Resource removed successfully.
+        400:
+          description: Bad request.
+          content: {}
+        404:
+          description: Resource does not exist.
+          content: {}
+
 components:
   schemas:
-    Role:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        description:
-          type: string
-          example: Administrator
-      xml:
-        name: Role
-    Status:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        description:
-          type: string
-      xml:
-        name: Status
-    PaymentMethod:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        description:
-          type: string
-      xml:
-        name: PaymentMethod
     Product:
       required:
         - description
         - price
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
         description:
           type: string
+          example: Menú
         price:
           type: integer
           format: int64
-        image:
-          type: string
-        orderDetails:
-          $ref: "#/components/schemas/OrderDetail"
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
+          example: 10000
       xml:
         name: Product
+    ProductOrder:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        quantity:
+          type: integer
+          format: int64
+          example: 1
+      xml:
+        name: Order
     User:
       required:
         - email
@@ -412,84 +368,56 @@ components:
         - shippingAddress
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
         email:
           type: string
+          example: myemail@email.com
         password:
           type: string
+          example: mypassword
         username:
           type: string
+          example: myusername
         fullname:
           type: string
+          example: my full name
         cellphone:
           type: string
+          example: 0123456789
         shippingAddress:
           type: string
+          example: my shipping address
         roleId:
           type: integer
           format: int64
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
+          example: 2
       xml:
         name: User
-    OrderDetail:
-      type: object
-      properties:
-        orderid:
-          type: integer
-          format: int64
-        productId:
-          type: integer
-          format: int64
-        quantity:
-          type: integer
-          format: int64
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
-      xml:
-        name: OrderDetail
     Order:
       type: object
       properties:
-        id:
+        paymentMethodId:
           type: integer
           format: int64
-        description:
-          type: string
+          example: 1
         products:
           type: array
           xml:
             name: product
             wrapped: true
           items:
-            $ref: "#/components/schemas/Product"
-        user:
-          $ref: "#/components/schemas/User"
-        status:
-          $ref: "#/components/schemas/Status"
-        paymentMethod:
-          $ref: "#/components/schemas/PaymentMethod"
-        total:
-          type: integer
-          format: int64
-        createdAt:
-          type: string
-          format: date-time
-        updatedAt:
-          type: string
-          format: date-time
+            $ref: "#/components/schemas/ProductOrder"
       xml:
         name: Order
+    OrderStatus:
+      type: object
+      properties:
+        statusId:
+          type: integer
+          format: int64
+          example: 1
+      xml:
+        name: Order
+
   securitySchemes:
     apiKey:
       type: apiKey
