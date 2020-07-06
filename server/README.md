@@ -202,7 +202,7 @@ This endpoint responses a **token**. This token must be used in the others endpo
 http://localhost:8081/api/v1/products
 
 - _You need to send the token in the **Headers** with **auth-token** key_.
-- _You need **admin privileges** via **roleId 2**_.
+- _You need **admin privileges** via **roleId 2**. This is sent in the token_.
 
 ```js
     {
@@ -222,7 +222,7 @@ http://localhost:8081/api/v1/products
 http://localhost:8081/api/v1/products/:id
 
 - _You need to send the token in the **Headers** with **auth-token** key_.
-- _You need **admin privileges** via **roleId 2**_.
+- _You need **admin privileges** via **roleId 2**. This is sent in the token_.
 
 ```js
     {
@@ -236,7 +236,7 @@ http://localhost:8081/api/v1/products/:id
 http://localhost:8081/api/v1/products/:id
 
 - _You need to send the token in the **Headers** with **auth-token** key_.
-- _You need **admin privileges** via **roleId 2**_.
+- _You need **admin privileges** via **roleId 2**. This is sent in the token_.
 
 ## For managing orders
 
@@ -279,7 +279,7 @@ Admin can see whatever specific order and normal client only can see an order if
 http://localhost:8081/api/v1/orders/:id
 
 - _You need to send the token in the **Headers** with **auth-token** key_.
-- _You need **admin privileges** via **roleId 2**_.
+- _You need **admin privileges** via **roleId 2**. This is sent in the token_.
 
 ```js
     {
