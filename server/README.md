@@ -94,7 +94,7 @@ Ignore the next warning message: _"Ignoring invalid configuration option passed 
 **Important note:** Tables and associations were created after did this.
 You can see the model database [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/tree/master/server/docs/db_delilah.png).
 
-Execute the next script to insert data in roles, statuses, paymentMethods and users tables.
+Execute the next script to insert data in roles, statuses, paymentMethods and users tables. _This is known like a seeders._
 
 ```bash
 npm run seed
@@ -111,6 +111,8 @@ If everything is ok you will get the next messages:
 Ignore the warning message _"Ignoring invalid configuration option passed to Connection.."_ again.
 
 **Important note:** This information needs to be inserted before testing all endpoints. **This is a master data.**
+
+The master data inserted are [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/tree/master/server/repository/seeders/data).
 
 Then return to execute to start the server again.
 
