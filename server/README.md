@@ -21,7 +21,7 @@ In this API you can allow users to register and login and manage products and or
 
 This README.md will guide you on how to install and use this API.
 
-NOTE: You can find the specification of the **OpenAPI** in [Open API Docs](https://app.swaggerhub.com/apis/leidymgdev/swagger-delilahresto/1.0.0) or in [this repository](https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/docs/openApi.yaml).
+NOTE: You can find the specification of the **OpenAPI** in [Open API Docs](https://app.swaggerhub.com/apis/leidymgdev/swagger-delilahresto/1.0.0).
 
 ## Installation and initialization
 
@@ -91,7 +91,7 @@ If everything is ok you will get the next messages:
 
 Ignore the next warning message: _"Ignoring invalid configuration option passed to Connection: useUTC. This is currently a warning, but in future versions of MySQL2, an error will be thrown if you pass an invalid configuration option to a Connection"._ **Actually this is an open issue only for mysql dialect.**
 
-_This is for changing the time zone for reading in the database. This configuration is [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/repository/database.js)._
+_This warning is for changing the time zone for reading in the database. This configuration is [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/repository/database.js)._
 
 ```js
     dialectOptions: {
@@ -146,15 +146,13 @@ You should get a message: **"Welcome to Delilah Resto Rest Api."**
 
 Use **Postman** or similar apps to try out the different GET, POST, PUT and DELETE requests.
 
-You can verify how the methods work in this [Postman collection](https://www.getpostman.com/collections/e97fa9d611c1d04628da).
+**You can [Run in Postman](https://app.getpostman.com/run-collection/bb3dbfc2335343c607c2). (For adding the collection in your windows postman. This contains all endpoints and data body to test/run each endpoint). This will save you work. So go ahead**
 
-**Or you can [Run in Postman](https://app.getpostman.com/run-collection/bb3dbfc2335343c607c2). (For adding the collection in your windows postman. This contains all endpoints and data body to test/run each endpoint). This will save you work. So go ahead**
-
-Also you can find the specification of the **OpenAPI** in this [url](http://localhost:8081/api/v1/docs/) (If you changed the PORT variable in env.variables.json please change it here too).
+Also you can find the specification of the **OpenAPI** in this [url](http://localhost:8081/api/v1/docs/). This is and endpoint in the api rest for seeing the OpenApi docs. (If you changed the PORT variable in env.variables.json please change it here too).
 
 ## METHODS
 
-**Important note:** middlewares check user and admin with a token. To have access to resources with admin privileges, you need to be logged in as a registered admin first.
+**Important note:** Middlewares check user and admin with a token. To have access to resources with admin privileges, you need to be logged in as a registered admin first.
 
 **Other important note:** Please remember to use JSON for all "body: raw" requests.
 
