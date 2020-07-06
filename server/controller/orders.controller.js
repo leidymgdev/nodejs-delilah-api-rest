@@ -97,7 +97,6 @@ const createOrderDetail = async (orderId, products) => {
 
   // Loop through all the items in req.products
   for (const item of products) {
-    // Search for the product with the givenId and make sure it exists. If it doesn't, respond with status 400.
     const product = await ProductsDao.findOneById(item.id);
 
     description += `${item.quantity} x ${product.name} `;

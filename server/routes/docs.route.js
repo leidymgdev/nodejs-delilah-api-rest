@@ -1,16 +1,9 @@
 const router = require("express").Router();
 
-// const swaggerUi = require('swagger-ui-express');
-// const swaggerDocument = require('../index.json');
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("../docs/openApi.json");
 
-// router.use('/docs', swaggerUi.serve);
-// router.get('/docs', swaggerUi.setup(swaggerDocument));
-
-// const swaggerUi = require('swagger-ui-express');
-// const YAML = require('yamljs');
-// const swaggerDocument = YAML.load('../index.yaml');
-
-// router.use('/docs', swaggerUi.serve);
-// router.get('/docs', swaggerUi.setup(swaggerDocument));
+router.use("/", swaggerUi.serve);
+router.get("/", swaggerUi.setup(swaggerDocument));
 
 module.exports = router;
