@@ -99,7 +99,7 @@ const createOrderDetail = async (orderId, products) => {
   for (const item of products) {
     const product = await ProductsDao.findOneById(item.id);
 
-    description += `${item.quantity} x ${product.name} `;
+    description += `${item.quantity} x ${product.description} `;
 
     // Create a dictionary with which to create the Order Detail
     const orderDetail = {
