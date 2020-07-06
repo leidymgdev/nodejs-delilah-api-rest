@@ -94,6 +94,10 @@ Ignore the next warning message: _"Ignoring invalid configuration option passed 
 **Important note:** Tables and associations were created after did this.
 You can see the model database [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/tree/master/server/docs/db_delilah.png).
 
+Or
+
+![model delilah database](https://raw.githubusercontent.com/leidymgdev/delilah-api-rest-nodejs/master/server/docs/db_delilah.png)
+
 Execute the next script to insert data in roles, statuses, paymentMethods and users tables. _This is known like a seeders._
 
 ```bash
@@ -177,12 +181,12 @@ http://localhost:8081/api/v1/users/login
 
 ```js
     {
-        "email": "martinezgiraldoleidy@gmail.com",
-        "password": "Intel135",
-        "username": "leidymgdev",
-        "fullname": "Leidy Johanna Martínez Giraldo5",
-        "cellphone": "3185273941",
-        "shippingAddress": "Carrera 6a # 23 - 23",
+        "email": "myemail@email.com",
+        "password": "mypassword",
+        "username": "myusername",
+        "fullname": "my full name",
+        "cellphone": "1234567890",
+        "shippingAddress": "my shipping address",
         "roleId": 2
     }
 ```
@@ -226,8 +230,8 @@ http://localhost:8081/api/v1/products/:id
 
 ```js
     {
-        "description": "Menú",
-        "price": 10000
+        "description": "Menú del día",
+        "price": 15000
     }
 ```
 
