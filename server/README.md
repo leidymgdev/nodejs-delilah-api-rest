@@ -93,6 +93,8 @@ Ignore the next warning message: _"Ignoring invalid configuration option passed 
 
 **Important note:** Tables and associations were created after did this.
 
+You can see the model database [here](https://github.com/leidymgdev/delilah-api-rest-nodejs/tree/master/server/docs/db_delilah.png)
+
 Execute the next script to insert data in roles, statuses, paymentMethods and users tables.
 
 ```bash
@@ -107,7 +109,7 @@ If everything is ok you will get the next messages:
 - _"1 users created."_
 - _"Success in bulk create seeders."_
 
-Ignotre the warning message _"Ignoring invalid configuration option passed to Connection.."_ again.
+Ignore the warning message _"Ignoring invalid configuration option passed to Connection.."_ again.
 
 **Important note:** This information needs to be inserted before testing all endpoints. **This is a master data.**
 
@@ -198,7 +200,7 @@ This endpoint responses a **token**. This token must be used in the others endpo
 
 http://localhost:8081/api/v1/products
 
-- _You need to send the token in the Headers with **auth-token** key_
+- _You need to send the token in the **Headers** with **auth-token** key_
 - _You need **admin privileges** via **roleId 2**_
 
 ```js
@@ -212,13 +214,13 @@ http://localhost:8081/api/v1/products
 
 http://localhost:8081/api/v1/products
 
-- _You need to send the token in the Headers with **auth-token** key_
+- _You need to send the token in the **Headers** with **auth-token** key_
 
 ### PUT - Products
 
 http://localhost:8081/api/v1/products/:id
 
-- _You need to send the token in the Headers with **auth-token** key_
+- _You need to send the token in the **Headers** with **auth-token** key_
 - _You need **admin privileges** via **roleId 2**_
 
 ```js
@@ -232,7 +234,7 @@ http://localhost:8081/api/v1/products/:id
 
 http://localhost:8081/api/v1/products/:id
 
-- _You need to send the token in the Headers with **auth-token** key_
+- _You need to send the token in the **Headers** with **auth-token** key_
 - _You need **admin privileges** via **roleId 2**_
 
 ## For managing orders
@@ -241,7 +243,7 @@ http://localhost:8081/api/v1/products/:id
 
 http://localhost:8081/api/v1/orders
 
-- _You need to send the token in the Headers with **auth-token** key_
+- _You need to send the token in the **Headers** with **auth-token** key_
 
 ```js
     {
@@ -259,7 +261,7 @@ http://localhost:8081/api/v1/orders
 
 http://localhost:8081/api/v1/orders
 
-- _You need to send the token in the Headers with **auth-token** key_
+- _You need to send the token in the **Headers** with **auth-token** key_
 
 Admin can see all orders and normal client only can see their orders.
 
@@ -267,7 +269,7 @@ Admin can see all orders and normal client only can see their orders.
 
 http://localhost:8081/api/v1/orders/:id
 
-- _You need to send the token in the Headers with **auth-token** key_
+- _You need to send the token in the **Headers** with **auth-token** key_
 
 Admin can see whatever specific order and normal client only can see an order if its own.
 
@@ -275,7 +277,7 @@ Admin can see whatever specific order and normal client only can see an order if
 
 http://localhost:8081/api/v1/orders/:id
 
-- _You need to send the token in the Headers with **auth-token** key_
+- _You need to send the token in the **Headers** with **auth-token** key_
 - _You need **admin privileges** via **roleId 2**_
 
 ```js
