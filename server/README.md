@@ -17,7 +17,7 @@ In this API you can allow users to register and login and manage products and or
 - bcryptjs (for hash password)
 - swagger-jsdoc and swagger-ui-express (for document code with OpenAPI / Swagger)
 
-## Getting Started
+# Getting Started
 
 This README.md will guide you on how to install and use this API.
 
@@ -84,6 +84,39 @@ npm start
 
 This will install the app in port **8081**. You can edit the port in the file [env.variables.json](https://github.com/leidymgdev/delilah-api-rest-nodejs/blob/master/server/config/env.variables.json). The variable for editing is **PORT**.
 
+If everything is ok you will get the next messages:
+
+- _"API running on port 8081 in environment development"_
+- _"Database is synced."_.
+
+Ignore the next warning message: _"Ignoring invalid configuration option passed to Connection: useUTC. This is currently a warning, but in future versions of MySQL2, an error will be thrown if you pass an invalid configuration option to a Connection"._ **Actually this is an open issue only for mysql dialect.**
+
+**Important note:** Tables and associations were created after did this.
+
+Execute the next script to insert data in roles, statuses, paymentMethods and users tables.
+
+```bash
+npm run seed
+```
+
+If everything is ok you will get the next messages:
+
+- _"2 roles created."_
+- _"6 statuses created."_
+- _"1 payment methods created."_
+- _"1 users created."_
+- _"Success in bulk create seeders."_
+
+Ignotre the warning message _"Ignoring invalid configuration option passed to Connection.."_ again.
+
+**Important note:** This information needs to be inserted before testing all endpoints. **This is a master data.**
+
+Then return to execute to start the server again.
+
+```bash
+npm start
+```
+
 ## Checking if it's running correctly
 
 Open this [url](http://localhost:8081/api/v1/) in the browser. (If you changed the PORT variable in **env.variables**.json please change it here too).
@@ -132,9 +165,8 @@ Request body:
 
 (**roleId** is an optional parameter.
 
-It will be saved with id 1 if the property does not come in the request.
-
-Id **2** makes for **admin privileges** and id **1** is for a **normal client**.)
+- It will be saved with id 1 if the property does not come in the request.
+- Id **2** makes for **admin privileges** and id **1** is for a **normal client**.)
 
 ### POST - Login of user
 
@@ -166,8 +198,8 @@ This endpoint responses a **token**. This token must be used in the others endpo
 
 http://localhost:8081/api/v1/products
 
-_You need to send the token in the Headers with **auth-token** key_
-_You need **admin privileges** via **roleId 2**_
+- _You need to send the token in the Headers with **auth-token** key_
+- _You need **admin privileges** via **roleId 2**_
 
 ```js
     {
@@ -180,14 +212,14 @@ _You need **admin privileges** via **roleId 2**_
 
 http://localhost:8081/api/v1/products
 
-_You need to send the token in the Headers with **auth-token** key_
+- _You need to send the token in the Headers with **auth-token** key_
 
 ### PUT - Products
 
 http://localhost:8081/api/v1/products/:id
 
-_You need to send the token in the Headers with **auth-token** key_
-_You need **admin privileges** via **roleId 2**_
+- _You need to send the token in the Headers with **auth-token** key_
+- _You need **admin privileges** via **roleId 2**_
 
 ```js
     {
@@ -200,8 +232,8 @@ _You need **admin privileges** via **roleId 2**_
 
 http://localhost:8081/api/v1/products/:id
 
-_You need to send the token in the Headers with **auth-token** key_
-_You need **admin privileges** via **roleId 2**_
+- _You need to send the token in the Headers with **auth-token** key_
+- _You need **admin privileges** via **roleId 2**_
 
 ## For managing orders
 
@@ -209,7 +241,7 @@ _You need **admin privileges** via **roleId 2**_
 
 http://localhost:8081/api/v1/orders
 
-_You need to send the token in the Headers with **auth-token** key_
+- _You need to send the token in the Headers with **auth-token** key_
 
 ```js
     {
@@ -227,20 +259,24 @@ _You need to send the token in the Headers with **auth-token** key_
 
 http://localhost:8081/api/v1/orders
 
-_You need to send the token in the Headers with **auth-token** key_
+- _You need to send the token in the Headers with **auth-token** key_
+
+Admin can see all orders and normal client only can see their orders.
 
 ### GET - Order by id order
 
 http://localhost:8081/api/v1/orders/:id
 
-_You need to send the token in the Headers with **auth-token** key_
+- _You need to send the token in the Headers with **auth-token** key_
+
+Admin can see whatever specific order and normal client only can see an order if its own.
 
 ### PUT - Orders (change status)
 
 http://localhost:8081/api/v1/orders/:id
 
-_You need to send the token in the Headers with **auth-token** key_
-_You need **admin privileges** via **roleId 2**_
+- _You need to send the token in the Headers with **auth-token** key_
+- _You need **admin privileges** via **roleId 2**_
 
 ```js
     {
