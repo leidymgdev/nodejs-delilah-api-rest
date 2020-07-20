@@ -30,7 +30,10 @@ router.post("/login", validateLogin, async (req, res) => {
     if (user[0].password !== password)
       return res.status(401).json({ error: "Bad credentials." });
 
-    const token = jwt.sign({ id: user.id, roleId: user.roleId }, SECRET_TOKEN);
+    const token = jwt.sign(
+      { id: user[0].id, roleId: user[0].roleId },
+      SECRET_TOKEN
+    );
     return res.header("auth-token", token).json({ token });
   } catch (error) {
     res.status(401).json({ error: error.message });

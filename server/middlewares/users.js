@@ -43,7 +43,7 @@ const validateToken = async (req, res, next) => {
     if (!token) return res.status(401).json({ error: "Access denied." });
 
     await jwt.verify(token, SECRET_TOKEN, (error, data) => {
-      if (error) return res.status(401).json({ error: "Token expired." });
+      if (error) return res.status(401).json({ error: "Access denied." });
       req.body.userId = data.id;
       req.body.roleId = data.roleId;
       next();

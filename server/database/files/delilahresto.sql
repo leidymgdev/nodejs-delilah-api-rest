@@ -46,10 +46,8 @@ VALUES ('admin@admin.com',"admin123","user_admin","My fullname admin", "01234567
 
 CREATE TABLE IF NOT EXISTS products (
   id int NOT NULL AUTO_INCREMENT,
-  name varchar(255) NOT NULL,
-  price decimal(10,0) NOT NULL,
-  stock int NULL,
-  image varchar(255) NULL,
+  description varchar(255) NOT NULL,
+  price decimal(10,0) NOT NULL
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 

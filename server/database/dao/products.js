@@ -1,9 +1,16 @@
-const create = (body) => {
-  return null; //Products.create(body);
+const database = require("../index");
+
+const create = async (body) => {
+  return await database.sequelize.query(
+    `INSERT INTO PRODUCTS (description, price) VALUES ("${body.description}", ${body.price});`,
+    { type: database.sequelize.QueryTypes.INSERT }
+  );
 };
 
-const findAll = () => {
-  return null; //Products.findAll();
+const findAll = async () => {
+  return await database.sequelize.query(`SELECT * FROM PRODUCTS`, {
+    type: database.sequelize.QueryTypes.SELECT,
+  });
 };
 
 const findAllByIds = (arrayIdsProducts) => {
@@ -13,16 +20,27 @@ const findAllByIds = (arrayIdsProducts) => {
   });*/
 };
 
-const findOneById = (id) => {
-  return null; //Products.findOne({ where: { id } });
+const findOneById = async (id) => {
+  return await database.sequelize.query(
+    `SELECT * FROM PRODUCTS WHERE ID = ${id};`,
+    {
+      type: database.sequelize.QueryTypes.SELECT,
+    }
+  );
 };
 
-const update = (id, body) => {
-  return null; // Products.update(body, { where: { id } }).then(() => findOneById(id));
+const update = async (id, body) => {
+  return await database.sequelize.query(
+    `UPDATE PRODUCTS SET DESCRIPTION = "${body.description}", PRICE = ${body.price} WHERE ID = ${id};`,
+    { type: database.sequelize.QueryTypes.UPDATE }
+  );
 };
 
-const remove = (id) => {
-  return null; //Products.destroy({ where: { id } });
+const remove = async (id) => {
+  return await database.sequelize.query(
+    `DELETE FROM PRODUCTS WHERE ID = ${id};`,
+    { type: database.sequelize.QueryTypes.DELETE }
+  );
 };
 
 module.exports = {
