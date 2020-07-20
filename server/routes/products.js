@@ -1,15 +1,35 @@
 const router = require("express").Router();
-const sequelize = require("sequelize");
-const database = require("../database");
 
-router.get("/", (req, res) => {
-  const products = "SELECT * FROM products";
-  database
-    .query(products, { type: sequelize.QueryTypes.SELECT })
-    .then((response) => {
-      res.json(response);
-    })
-    .catch((e) => console.log(e));
+const { validateToken, validatePermissions } = require("../middlewares/users");
+
+const { validateRequest } = require("../middlewares/products");
+
+router.post(
+  "/",
+  validateRequest,
+  validateToken,
+  validatePermissions,
+  (req, res) => {
+    return null;
+  }
+);
+
+router.get("/", validateToken, (req, res) => {
+  return null;
+});
+
+router.put(
+  "/:id",
+  validateRequest,
+  validateToken,
+  validatePermissions,
+  (req, res) => {
+    return null;
+  }
+);
+
+router.delete("/:id", validateToken, validatePermissions, (req, res) => {
+  return null;
 });
 
 module.exports = router;

@@ -1,10 +1,10 @@
 const Sequelize = require("sequelize");
 
-const database = new Sequelize("mysql://root:@localhost:3306/delilahresto");
+/*const database = new Sequelize("mysql://root:@localhost:3306/delilahresto");*/
 
-/*const database = new Sequelize("delilahrestoelena", "root", "Intel135", {
+const database = new Sequelize("delilahresto", "root", "Intel135", {
   host: "localhost",
-  dialect: "mysql",
-});*/
+  dialect: "mysql"
+});
 
 module.exports = database;
