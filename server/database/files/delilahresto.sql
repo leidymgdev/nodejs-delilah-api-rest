@@ -47,13 +47,13 @@ VALUES ('admin@admin.com',"admin123","user_admin","My fullname admin", "01234567
 CREATE TABLE IF NOT EXISTS products (
   id int NOT NULL AUTO_INCREMENT,
   description varchar(255) NOT NULL,
-  price decimal(10,0) NOT NULL
+  price decimal(10,0) NOT NULL,
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE IF NOT EXISTS orders (
   id int NOT NULL AUTO_INCREMENT,
-  description varchar(255) NOT NULL,
+  description varchar(255) NULL,
   createdAt datetime DEFAULT CURRENT_TIMESTAMP,
   userId int DEFAULT NULL,
   statusId int DEFAULT NULL,
@@ -69,10 +69,8 @@ CREATE TABLE IF NOT EXISTS orders (
 
 CREATE TABLE IF NOT EXISTS orderdetails (
   quantity int NOT NULL,
-  price decimal(10,0) NOT NULL,
   orderId int DEFAULT NULL,
   productId int DEFAULT NULL,
-  PRIMARY KEY (quantity,price),
   KEY orderId (orderId),
   KEY productId (productId),
   CONSTRAINT orderdetails_ibfk_1 FOREIGN KEY (orderId) REFERENCES orders (id) ON DELETE SET NULL ON UPDATE CASCADE,

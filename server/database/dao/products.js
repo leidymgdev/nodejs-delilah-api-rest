@@ -13,11 +13,13 @@ const findAll = async () => {
   });
 };
 
-const findAllByIds = (arrayIdsProducts) => {
-  return null;
-  /*Products.findAll({
-    where: { id: { [Op.in]: arrayIdsProducts } },
-  });*/
+const findAllByIds = async (arrayIdsProducts) => {
+  return await database.sequelize.query(
+    `SELECT * FROM PRODUCTS WHERE ID IN (${arrayIdsProducts});`,
+    {
+      type: database.sequelize.QueryTypes.SELECT,
+    }
+  );
 };
 
 const findOneById = async (id) => {
