@@ -1,22 +1,21 @@
-const findoneByEmailOrUsername = (body) => {
-  return null;
-  /* Users.findOne({
-    where: {
-      [Op.or]: [{ email: body.email }, { username: body.username }],
-    },
-  })
-    .then((result) => result)
-    .catch((err) => ({ error: `>> Error while finding User: ${err}` })); */
+const database = require("../index");
+
+const findByEmailOrUsername = async (body) => {
+  return await database.sequelize.query(
+    `SELECT * FROM USERS  WHERE EMAIL = "${body.email}" OR USERNAME = "${body.username}";`,
+    { type: database.sequelize.QueryTypes.SELECT }
+  );
 };
 
-const create = (body) => {
-  return null;
-  /*Users.create(body)
-    .then((result) => result)
-    .catch((err) => ({ error: `>> Error while creating User: ${err}` }));*/
+const create = async (body) => {
+  return await database.sequelize.query(
+    `INSERT INTO USERS (email, password, username, fullname, cellphone, shippingAddress, roleId) 
+     VALUES ("${body.email}","${body.password}","${body.username}","${body.fullname}", "${body.cellphone}", "${body.shippingAddress}", ${body.roleId});`,
+    { type: database.sequelize.QueryTypes.INSERT }
+  );
 };
 
 module.exports = {
-  findoneByEmailOrUsername,
+  findByEmailOrUsername,
   create,
 };

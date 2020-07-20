@@ -40,6 +40,10 @@ CREATE TABLE IF NOT EXISTS users (
   CONSTRAINT users_ibfk_1 FOREIGN KEY (roleId) REFERENCES roles (id) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+INSERT INTO users 
+(email, password, username, fullname, cellphone, shippingAddress, roleId) 
+VALUES ('admin@admin.com',"admin123","user_admin","My fullname admin", "0123456789", "Calle 10", 2);
+
 CREATE TABLE IF NOT EXISTS products (
   id int NOT NULL AUTO_INCREMENT,
   name varchar(255) NOT NULL,
